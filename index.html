@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Minhas Referências de Consultas</title>
+    <meta
+      name="description"
+      content="Biblioteca pessoal de referências rápidas: Markdown, Git, SQL, Go, Python e estrutura de dados"
+    />
+    <meta name="author" content="Tonaldo Pereira" />
+    <meta name="theme-color" content="#6366f1" />
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="alternate icon" href="data:," />
+
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+
+    <!-- Aplica tema salvo ANTES de pintar -->
+    <script>
+      (function () {
+        const saved = localStorage.getItem("theme");
+        if (saved === "dark") {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
+
+    <style>
+      :root {
+        --bg: #f5f7fa;
+        --bg-card: #ffffff;
+        --text: #1a1a1a;
+        --text-soft: #666666;
+        --text-muted: #888888;
+        --border: #e5e7eb;
+        --shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.1);
+        --toggle-bg: #1a1a1a;
+        --toggle-text: #ffffff;
+        --accent: #6366f1;
+        --icon-color: #8b8b8b;
+      }
+
+      html.dark {
+        --bg: #0f0f12;
+        --bg-card: #1a1a1f;
+        --text: #e6e6e6;
+        --text-soft: #a0a0a0;
+        --text-muted: #707070;
+        --border: #2a2a35;
+        --shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.6);
+        --toggle-bg: #f0f0f0;
+        --toggle-text: #1a1a1a;
+        --accent: #818cf8;
+        --icon-color: #b0b0b0;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        background: var(--bg);
+        transition:
+          background 0.3s ease,
+          color 0.3s ease;
+      }
+
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: var(--text);
+        min-height: 100vh;
+        padding: 60px 20px 80px;
+        line-height: 1.5;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      h1 {
+        font-size: 2.2em;
+        margin-bottom: 10px;
+        letter-spacing: -0.5px;
+      }
+
+      .subtitle {
+        color: var(--text-soft);
+        font-size: 1em;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 18px;
+      }
+
+      .card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 28px 24px;
+        text-decoration: none;
+        color: var(--text);
+        box-shadow: var(--shadow);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          border-color 0.2s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 14px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-hover);
+        border-color: var(--accent);
+      }
+
+      .card-icon {
+        font-size: 2.8em;
+        color: var(--icon-color);
+        line-height: 1;
+        transition:
+          color 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      .card:hover .card-icon {
+        color: var(--accent);
+        transform: scale(1.1);
+      }
+
+      .card-title {
+        font-size: 1.1em;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      .card-desc {
+        font-size: 0.85em;
+        color: var(--text-soft);
+        line-height: 1.4;
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 70px;
+        color: var(--text-muted);
+        font-size: 0.85em;
+      }
+
+      .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--toggle-bg);
+        color: var(--toggle-text);
+        border: none;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        font-size: 1.3em;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        transition:
+          transform 0.2s ease,
+          background 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .theme-toggle:hover {
+        transform: scale(1.1);
+      }
+
+      .theme-toggle:active {
+        transform: scale(0.95);
+      }
+      footer a.footer-link {
+        color: var(--text-soft);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      footer a.footer-link:hover {
+        color: var(--accent);
+      }
+
+      footer a.footer-link i {
+        font-size: 1.05em;
+        opacity: 0.8;
+        transition: opacity 0.2s ease;
+      }
+
+      footer a.footer-link:hover i {
+        opacity: 1;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .card {
+        animation: fadeInUp 0.4s ease backwards;
+      }
+
+      @media print {
+        .theme-toggle {
+          display: none !important;
+        }
+        body {
+          background: #fff;
+          color: #000;
+          padding: 20px;
+        }
+        .card {
+          box-shadow: none;
+          border-color: #ccc;
+          break-inside: avoid;
+        }
+        .card-icon {
+          color: #555 !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      class="theme-toggle"
+      id="themeToggle"
+      title="Alternar tema claro/escuro"
+      aria-label="Alternar tema"
+    >
+      <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+    </button>
+
+    <div class="container">
+      <header>
+        <h1>📚 Minhas Referências de Consultas</h1>
+        <p class="subtitle">Consulta rápida</p>
+      </header>
+
+      <main class="grid" id="grid"></main>
+
+      <footer>
+        created by
+        <a
+          href="https://instagram.com/tonaldop"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer-link"
+        >
+          tonaldo <i class="bi bi-instagram"></i>
+        </a>
+      </footer>
+    </div>
+
+    <script>
+      const referencias = [
+        {
+          file: "markdown.html",
+          icon: "bi-markdown-fill",
+          title: "Markdown",
+          desc: "Sintaxe de formatação de texto",
+        },
+        {
+          file: "git.html",
+          icon: "bi-git",
+          title: "Git",
+          desc: "Controle de versão",
+        },
+        {
+          file: "mysql.html",
+          icon: "bi-database-fill",
+          title: "MySQL / SQL",
+          desc: "Banco de dados relacional",
+        },
+        {
+          file: "golang.html",
+          icon: "bi-cpu-fill",
+          title: "Go (Golang)",
+          desc: "Linguagem compilada e concorrente",
+        },
+        {
+          file: "python.html",
+          icon: "bi-filetype-py",
+          title: "Python",
+          desc: "Linguagem versátil e expressiva",
+        },
+        {
+          file: "estrutura-dados.html",
+          icon: "bi-diagram-3-fill",
+          title: "Estrutura de Dados",
+          desc: "Fundamentos e algoritmos",
+        },
+      ];
+
+      const grid = document.getElementById("grid");
+
+      grid.innerHTML = referencias
+        .map(
+          (r, i) => `
+            <a class="card" href="${r.file}" style="animation-delay: ${
+              i * 0.05
+            }s">
+              <i class="bi ${r.icon} card-icon"></i>
+              <div class="card-title">${r.title}</div>
+              <div class="card-desc">${r.desc}</div>
+            </a>
+          `,
+        )
+        .join("");
+
+      (function () {
+        const btn = document.getElementById("themeToggle");
+        const icon = document.getElementById("themeIcon");
+        const html = document.documentElement;
+
+        function applyTheme(theme) {
+          if (theme === "dark") {
+            html.classList.add("dark");
+            icon.className = "bi bi-sun-fill";
+            btn.title = "Modo claro";
+          } else {
+            html.classList.remove("dark");
+            icon.className = "bi bi-moon-stars-fill";
+            btn.title = "Modo escuro";
+          }
+        }
+
+        const saved = localStorage.getItem("theme") || "light";
+        applyTheme(saved);
+
+        btn.addEventListener("click", function () {
+          const current = html.classList.contains("dark") ? "dark" : "light";
+          const next = current === "dark" ? "light" : "dark";
+          localStorage.setItem("theme", next);
+          applyTheme(next);
+        });
+      })();
+    </script>
+  </body>
+</html>

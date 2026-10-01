@@ -1,0 +1,1026 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git - Referência Completa</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text: #222222;
+        --text-soft: #666666;
+        --text-muted: #888888;
+        --border: #cccccc;
+        --border-soft: #dddddd;
+        --h2-bg: #333333;
+        --h2-text: #ffffff;
+        --th-bg: #f0f0f0;
+        --code-bg: #f5f5f5;
+        --code-text: #c7254e;
+        --code-cell-text: #333333;
+        --pre-bg: #2d2d2d;
+        --pre-text: #f8f8f2;
+        --tip-bg: #e8f5e9;
+        --tip-border: #2e7d32;
+        --warn-bg: #fff3e0;
+        --warn-border: #e65100;
+        --toggle-bg: #333333;
+        --toggle-text: #ffffff;
+        --link: #3b82f6;
+      }
+
+      html.dark {
+        --bg: #1a1a1a;
+        --text: #e6e6e6;
+        --text-soft: #b0b0b0;
+        --text-muted: #888888;
+        --border: #3a3a3a;
+        --border-soft: #2e2e2e;
+        --h2-bg: #0d0d0d;
+        --h2-text: #ffffff;
+        --th-bg: #2a2a2a;
+        --code-bg: #2a2a2a;
+        --code-text: #ff8fa3;
+        --code-cell-text: #e6e6e6;
+        --pre-bg: #0d0d0d;
+        --pre-text: #e6e6e6;
+        --tip-bg: #1b3a1e;
+        --tip-border: #4caf50;
+        --warn-bg: #3a2410;
+        --warn-border: #ff9800;
+        --toggle-bg: #f0f0f0;
+        --toggle-text: #1a1a1a;
+        --link: #60a5fa;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        background: var(--bg);
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        max-width: 950px;
+        margin: 20px auto;
+        padding: 20px;
+        color: var(--text);
+        line-height: 1.5;
+      }
+
+      h1 {
+        text-align: center;
+        border-bottom: 3px solid var(--text);
+        padding-bottom: 10px;
+        margin-bottom: 5px;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: var(--text-soft);
+        margin-bottom: 25px;
+        font-size: 0.9em;
+      }
+
+      h2 {
+        background: var(--h2-bg);
+        color: var(--h2-text);
+        padding: 8px 12px;
+        margin-top: 25px;
+        border-radius: 4px;
+        font-size: 1.1em;
+      }
+
+      h3 {
+        color: var(--text);
+        font-size: 1em;
+        margin-top: 18px;
+        margin-bottom: 6px;
+        border-left: 4px solid var(--text-soft);
+        padding-left: 8px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        page-break-inside: avoid;
+      }
+
+      th,
+      td {
+        border: 1px solid var(--border);
+        padding: 8px 10px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: var(--th-bg);
+        font-weight: bold;
+      }
+
+      code {
+        background: var(--code-bg);
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 0.92em;
+        color: var(--code-text);
+      }
+
+      td:first-child code {
+        background: transparent;
+        color: var(--code-cell-text);
+        font-weight: bold;
+        padding: 0;
+      }
+
+      pre {
+        background: var(--pre-bg);
+        color: var(--pre-text);
+        padding: 10px 12px;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 0.85em;
+        line-height: 1.4;
+        margin-top: 8px;
+        page-break-inside: avoid;
+      }
+
+      pre code {
+        background: transparent;
+        color: inherit;
+        padding: 0;
+        font-weight: normal;
+      }
+
+      a {
+        color: var(--link);
+      }
+
+      .tip {
+        background: var(--tip-bg);
+        border-left: 4px solid var(--tip-border);
+        padding: 8px 12px;
+        margin: 10px 0;
+        border-radius: 0 4px 4px 0;
+        font-size: 0.9em;
+      }
+
+      .warn {
+        background: var(--warn-bg);
+        border-left: 4px solid var(--warn-border);
+        padding: 8px 12px;
+        margin: 10px 0;
+        border-radius: 0 4px 4px 0;
+        font-size: 0.9em;
+      }
+
+      .footer {
+        margin-top: 30px;
+        text-align: center;
+        font-size: 0.8em;
+        color: var(--text-muted);
+        border-top: 1px solid var(--border-soft);
+        padding-top: 10px;
+      }
+
+      /* Botão de tema */
+      .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--toggle-bg);
+        color: var(--toggle-text);
+        border: none;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        font-size: 1.3em;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        transition: transform 0.2s ease, background 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .theme-toggle:hover {
+        transform: scale(1.1);
+      }
+
+      .theme-toggle:active {
+        transform: scale(0.95);
+      }
+
+      /* Numeração de páginas (impressão) */
+      @page {
+        margin: 15mm 12mm 18mm 12mm;
+
+        @bottom-center {
+          content: "Página " counter(page) " de " counter(pages);
+          font-family: "Segoe UI", Arial, sans-serif;
+          font-size: 9pt;
+          color: #666;
+        }
+      }
+
+      @media print {
+        body {
+          margin: 0;
+          padding: 15px;
+          font-size: 10.5pt;
+          background: #ffffff !important;
+          color: #222222 !important;
+        }
+
+        .theme-toggle,
+        .no-print {
+          display: none !important;
+        }
+
+        h2 {
+          background: #333 !important;
+          color: #fff !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        th {
+          background: #f0f0f0 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        pre {
+          background: #2d2d2d !important;
+          color: #f8f8f2 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        .tip,
+        .warn {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        /* Força tema claro mesmo se estiver em dark */
+        html.dark {
+          --bg: #ffffff;
+          --text: #222222;
+          --border: #cccccc;
+          --th-bg: #f0f0f0;
+          --code-bg: #f5f5f5;
+          --code-text: #c7254e;
+          --code-cell-text: #333333;
+          --pre-bg: #2d2d2d;
+          --pre-text: #f8f8f2;
+          --h2-bg: #333333;
+          --h2-text: #ffffff;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      class="theme-toggle no-print"
+      id="themeToggle"
+      title="Alternar tema claro/escuro"
+      aria-label="Alternar tema"
+    >
+      🌙
+    </button>
+
+    <h1>🔀 Git — Referência Completa</h1>
+    <p class="subtitle">Guia prático com comandos essenciais e avançados</p>
+
+    <!-- ============================================================ -->
+    <h2>⚙️ Configuração Inicial</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>git config --global user.name "Nome"</code></td>
+        <td>Define o nome do usuário</td>
+      </tr>
+      <tr>
+        <td><code>git config --global user.email "email"</code></td>
+        <td>Define o e-mail do usuário</td>
+      </tr>
+      <tr>
+        <td><code>git config --global core.editor "code --wait"</code></td>
+        <td>Define o editor padrão (VS Code)</td>
+      </tr>
+      <tr>
+        <td><code>git config --global init.defaultBranch main</code></td>
+        <td>Define <code>main</code> como branch padrão</td>
+      </tr>
+      <tr>
+        <td><code>git config --global alias.st status</code></td>
+        <td>Cria atalhos personalizados</td>
+      </tr>
+      <tr>
+        <td><code>git config --list</code></td>
+        <td>Lista todas as configurações</td>
+      </tr>
+    </table>
+
+    <div class="tip">
+      💡 <strong>Dica:</strong> Use <code>--global</code> para o usuário, <code>--local</code> para o projeto atual.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>📦 Criar, Clonar e Remover</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>git init</code></td>
+        <td>Cria um novo repositório local</td>
+      </tr>
+      <tr>
+        <td><code>git init --bare</code></td>
+        <td>Cria repositório sem working tree (servidor)</td>
+      </tr>
+      <tr>
+        <td><code>git clone &lt;url&gt;</code></td>
+        <td>Clona um repositório remoto</td>
+      </tr>
+      <tr>
+        <td><code>git clone --depth 1 &lt;url&gt;</code></td>
+        <td>Clona apenas o último commit (shallow)</td>
+      </tr>
+      <tr>
+        <td><code>git clone -b &lt;branch&gt; &lt;url&gt;</code></td>
+        <td>Clona um branch específico</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>📸 Estado e Histórico</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>git status</code></td>
+        <td>Mostra arquivos modificados/novos</td>
+      </tr>
+      <tr>
+        <td><code>git status -s</code></td>
+        <td>Status resumido</td>
+      </tr>
+      <tr>
+        <td><code>git log</code></td>
+        <td>Histórico completo de commits</td>
+      </tr>
+      <tr>
+        <td><code>git log --oneline</code></td>
+        <td>Histórico resumido</td>
+      </tr>
+      <tr>
+        <td><code>git log --graph --oneline --all</code></td>
+        <td>Gráfico de branches</td>
+      </tr>
+      <tr>
+        <td><code>git log -p &lt;arquivo&gt;</code></td>
+        <td>Histórico de um arquivo com diffs</td>
+      </tr>
+      <tr>
+        <td><code>git log --author="Nome"</code></td>
+        <td>Filtra por autor</td>
+      </tr>
+      <tr>
+        <td><code>git log --since="2 weeks ago"</code></td>
+        <td>Filtra por data</td>
+      </tr>
+      <tr>
+        <td><code>git diff</code></td>
+        <td>Diferenças não adicionadas</td>
+      </tr>
+      <tr>
+        <td><code>git diff --staged</code></td>
+        <td>Diferenças já em stage</td>
+      </tr>
+      <tr>
+        <td><code>git diff branch1..branch2</code></td>
+        <td>Diferenças entre branches</td>
+      </tr>
+      <tr>
+        <td><code>git show &lt;hash&gt;</code></td>
+        <td>Detalhes de um commit</td>
+      </tr>
+      <tr>
+        <td><code>git blame &lt;arquivo&gt;</code></td>
+        <td>Quem alterou cada linha</td>
+      </tr>
+      <tr>
+        <td><code>git shortlog -sn</code></td>
+        <td>Quantos commits por autor</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>💾 Salvando Alterações</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>git add &lt;arquivo&gt;</code></td>
+        <td>Adiciona um arquivo ao stage</td>
+      </tr>
+      <tr>
+        <td><code>git add .</code></td>
+        <td>Adiciona todas as alterações</td>
+      </tr>
+      <tr>
+        <td><code>git add -p</code></td>
+        <td>Adiciona por partes (interativo)</td>
+      </tr>
+      <tr>
+        <td><code>git commit -m "mensagem"</code></td>
+        <td>Cria um commit</td>
+      </tr>
+      <tr>
+        <td><code>git commit -am "msg"</code></td>
+        <td>Add + commit em arquivos rastreados</td>
+      </tr>
+      <tr>
+        <td><code>git commit --amend</code></td>
+        <td>Edita o último commit</td>
+      </tr>
+      <tr>
+        <td><code>git commit --amend --no-edit</code></td>
+        <td>Adiciona ao último commit sem editar msg</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>📝 Padrões de Mensagens de Commit</h2>
+    <table>
+      <tr>
+        <th width="25%">Tipo</th>
+        <th>Quando usar</th>
+      </tr>
+      <tr>
+        <td><code>feat:</code></td>
+        <td>Nova funcionalidade</td>
+      </tr>
+      <tr>
+        <td><code>fix:</code></td>
+        <td>Correção de bug</td>
+      </tr>
+      <tr>
+        <td><code>docs:</code></td>
+        <td>Documentação</td>
+      </tr>
+      <tr>
+        <td><code>style:</code></td>
+        <td>Formatação (sem mudança de lógica)</td>
+      </tr>
+      <tr>
+        <td><code>refactor:</code></td>
+        <td>Refatoração (sem nova feature ou fix)</td>
+      </tr>
+      <tr>
+        <td><code>test:</code></td>
+        <td>Adição/correção de testes</td>
+      </tr>
+      <tr>
+        <td><code>chore:</code></td>
+        <td>Tarefas (build, deps, config)</td>
+      </tr>
+      <tr>
+        <td><code>perf:</code></td>
+        <td>Melhoria de performance</td>
+      </tr>
+      <tr>
+        <td><code>ci:</code></td>
+        <td>Integração contínua</td>
+      </tr>
+      <tr>
+        <td><code>revert:</code></td>
+        <td>Reverter commit anterior</td>
+      </tr>
+    </table>
+
+    <h3>Exemplos práticos</h3>
+    <pre><code>feat(auth): adiciona login com Google
+fix(api): corrige erro 500 ao listar usuários
+docs(readme): atualiza instruções de instalação
+refactor(utils): simplifica função de formatação
+chore(deps): atualiza dependências do projeto</code></pre>
+
+    <div class="tip">
+      💡 <strong>Formato:</strong> <code>tipo(escopo): descrição curta</code> — escopo é opcional.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>🌿 Branches</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>git branch</code></td>
+        <td>Lista branches locais</td>
+      </tr>
+      <tr>
+        <td><code>git branch -a</code></td>
+        <td>Lista locais e remotos</td>
+      </tr>
+      <tr>
+        <td><code>git branch -v</code></td>
+        <td>Lista com último commit</td>
+      </tr>
+      <tr>
+        <td><code>git branch &lt;nome&gt;</code></td>
+        <td>Cria um novo branch</td>
+      </tr>
+      <tr>
+        <td><code>git branch -m &lt;novo&gt;</code></td>
+        <td>Renomeia o branch atual</td>
+      </tr>
+      <tr>
+        <td><code>git checkout &lt;nome&gt;</code></td>
+        <td>Troca para o branch</td>
+      </tr>
+      <tr>
+        <td><code>git checkout -b &lt;nome&gt;</code></td>
+        <td>Cria e troca</td>
+      </tr>
+      <tr>
+        <td><code>git switch &lt;nome&gt;</code></td>
+        <td>Troca (comando moderno)</td>
+      </tr>
+      <tr>
+        <td><code>git switch -c &lt;nome&gt;</code></td>
+        <td>Cria e troca (moderno)</td>
+      </tr>
+      <tr>
+        <td><code>git merge &lt;branch&gt;</code></td>
+        <td>Mescla na branch atual</td>
+      </tr>
+      <tr>
+        <td><code>git merge --no-ff &lt;branch&gt;</code></td>
+        <td>Merge sem fast-forward</td>
+      </tr>
+      <tr>
+        <td><code>git branch -d &lt;nome&gt;</code></td>
+        <td>Deleta branch (seguro)</td>
+      </tr>
+      <tr>
+        <td><code>git branch -D &lt;nome&gt;</code></td>
+        <td>Força exclusão</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🔀 Rebase e Cherry-pick</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>git rebase &lt;branch&gt;</code></td>
+        <td>Reaplica commits sobre outra branch</td>
+      </tr>
+      <tr>
+        <td><code>git rebase -i HEAD~3</code></td>
+        <td>Rebase interativo dos últimos 3 commits</td>
+      </tr>
+      <tr>
+        <td><code>git rebase --continue</code></td>
+        <td>Continua após resolver conflito</td>
+      </tr>
+      <tr>
+        <td><code>git rebase --abort</code></td>
+        <td>Cancela o rebase</td>
+      </tr>
+      <tr>
+        <td><code>git cherry-pick &lt;hash&gt;</code></td>
+        <td>Aplica um commit específico</td>
+      </tr>
+      <tr>
+        <td><code>git cherry-pick &lt;h1&gt;..&lt;h2&gt;</code></td>
+        <td>Aplica um intervalo de commits</td>
+      </tr>
+    </table>
+
+    <div class="warn">
+      ⚠️ <strong>Atenção:</strong> Nunca faça rebase em branches já compartilhados publicamente.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>☁️ Repositórios Remotos</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>git remote -v</code></td>
+        <td>Lista remotos</td>
+      </tr>
+      <tr>
+        <td><code>git remote add origin &lt;url&gt;</code></td>
+        <td>Adiciona um remoto</td>
+      </tr>
+      <tr>
+        <td><code>git remote set-url origin &lt;url&gt;</code></td>
+        <td>Altera a URL do remoto</td>
+      </tr>
+      <tr>
+        <td><code>git remote remove origin</code></td>
+        <td>Remove o remoto</td>
+      </tr>
+      <tr>
+        <td><code>git push origin &lt;branch&gt;</code></td>
+        <td>Envia commits</td>
+      </tr>
+      <tr>
+        <td><code>git push -u origin &lt;branch&gt;</code></td>
+        <td>Envia e define upstream</td>
+      </tr>
+      <tr>
+        <td><code>git push origin --delete &lt;branch&gt;</code></td>
+        <td>Deleta branch remoto</td>
+      </tr>
+      <tr>
+        <td><code>git push --force-with-lease</code></td>
+        <td>Force seguro (recomendado)</td>
+      </tr>
+      <tr>
+        <td><code>git push --force</code></td>
+        <td>⚠️ Force bruto (cuidado!)</td>
+      </tr>
+      <tr>
+        <td><code>git pull</code></td>
+        <td>Fetch + merge</td>
+      </tr>
+      <tr>
+        <td><code>git pull --rebase</code></td>
+        <td>Fetch + rebase</td>
+      </tr>
+      <tr>
+        <td><code>git fetch</code></td>
+        <td>Baixa sem mesclar</td>
+      </tr>
+      <tr>
+        <td><code>git fetch --prune</code></td>
+        <td>Remove refs de branches deletados</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>↩️ Desfazendo Coisas</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>git restore &lt;arquivo&gt;</code></td>
+        <td>Descarta alterações não commitadas</td>
+      </tr>
+      <tr>
+        <td><code>git restore --staged &lt;arq&gt;</code></td>
+        <td>Remove do stage (mantém alterações)</td>
+      </tr>
+      <tr>
+        <td><code>git restore --source=HEAD~2 &lt;arq&gt;</code></td>
+        <td>Restaura arquivo de um commit antigo</td>
+      </tr>
+      <tr>
+        <td><code>git reset --soft HEAD~1</code></td>
+        <td>Desfaz commit mantendo stage</td>
+      </tr>
+      <tr>
+        <td><code>git reset --mixed HEAD~1</code></td>
+        <td>Desfaz commit (padrão)</td>
+      </tr>
+      <tr>
+        <td><code>git reset --hard HEAD~1</code></td>
+        <td>⚠️ Desfaz commit e alterações</td>
+      </tr>
+      <tr>
+        <td><code>git revert &lt;hash&gt;</code></td>
+        <td>Cria commit que desfaz outro</td>
+      </tr>
+      <tr>
+        <td><code>git reflog</code></td>
+        <td>Histórico de tudo (recuperação)</td>
+      </tr>
+    </table>
+
+    <div class="tip">
+      💡 <strong>Recuperação:</strong> Usou <code>reset --hard</code> por engano? Use <code>git reflog</code> para achar o hash e recuperar.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>📥 Guardando Temporariamente (Stash)</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>git stash</code></td>
+        <td>Guarda alterações temporariamente</td>
+      </tr>
+      <tr>
+        <td><code>git stash -u</code></td>
+        <td>Inclui arquivos não rastreados</td>
+      </tr>
+      <tr>
+        <td><code>git stash save "msg"</code></td>
+        <td>Guarda com descrição</td>
+      </tr>
+      <tr>
+        <td><code>git stash list</code></td>
+        <td>Lista stashes</td>
+      </tr>
+      <tr>
+        <td><code>git stash pop</code></td>
+        <td>Recupera e remove o último</td>
+      </tr>
+      <tr>
+        <td><code>git stash apply stash@{2}</code></td>
+        <td>Aplica um stash específico</td>
+      </tr>
+      <tr>
+        <td><code>git stash drop stash@{0}</code></td>
+        <td>Remove um stash</td>
+      </tr>
+      <tr>
+        <td><code>git stash clear</code></td>
+        <td>Remove todos os stashes</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🏷️ Tags</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>git tag</code></td>
+        <td>Lista tags</td>
+      </tr>
+      <tr>
+        <td><code>git tag v1.0.0</code></td>
+        <td>Cria tag leve</td>
+      </tr>
+      <tr>
+        <td><code>git tag -a v1.0 -m "msg"</code></td>
+        <td>Tag anotada</td>
+      </tr>
+      <tr>
+        <td><code>git tag -d v1.0</code></td>
+        <td>Deleta tag local</td>
+      </tr>
+      <tr>
+        <td><code>git push origin v1.0</code></td>
+        <td>Envia tag específica</td>
+      </tr>
+      <tr>
+        <td><code>git push --tags</code></td>
+        <td>Envia todas as tags</td>
+      </tr>
+      <tr>
+        <td><code>git push origin --delete v1.0</code></td>
+        <td>Deleta tag remota</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🔍 Busca e Inspeção</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>git grep "texto"</code></td>
+        <td>Busca em arquivos rastreados</td>
+      </tr>
+      <tr>
+        <td><code>git log -S "função"</code></td>
+        <td>Commits que adicionaram/removeram texto</td>
+      </tr>
+      <tr>
+        <td><code>git log --grep="bug"</code></td>
+        <td>Busca em mensagens de commit</td>
+      </tr>
+      <tr>
+        <td><code>git bisect start</code></td>
+        <td>Busca binária de bug</td>
+      </tr>
+      <tr>
+        <td><code>git bisect good/bad</code></td>
+        <td>Marca commits na busca</td>
+      </tr>
+      <tr>
+        <td><code>git bisect reset</code></td>
+        <td>Finaliza a busca</td>
+      </tr>
+      <tr>
+        <td><code>git fsck</code></td>
+        <td>Verifica integridade do repositório</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🧹 Limpeza e Manutenção</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>git clean -n</code></td>
+        <td>Simula limpeza (dry-run)</td>
+      </tr>
+      <tr>
+        <td><code>git clean -f</code></td>
+        <td>Remove arquivos não rastreados</td>
+      </tr>
+      <tr>
+        <td><code>git clean -fd</code></td>
+        <td>⚠️ Remove arquivos e diretórios</td>
+      </tr>
+      <tr>
+        <td><code>git gc</code></td>
+        <td>Garbage collector (otimiza)</td>
+      </tr>
+      <tr>
+        <td><code>git prune</code></td>
+        <td>Remove objetos inalcançáveis</td>
+      </tr>
+      <tr>
+        <td><code>git rm &lt;arquivo&gt;</code></td>
+        <td>Remove arquivo do repositório</td>
+      </tr>
+      <tr>
+        <td><code>git rm --cached &lt;arquivo&gt;</code></td>
+        <td>Remove do Git (mantém no disco)</td>
+      </tr>
+      <tr>
+        <td><code>git mv &lt;orig&gt; &lt;dest&gt;</code></td>
+        <td>Move/renomeia arquivo</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>📄 Arquivo .gitignore</h2>
+    <table>
+      <tr>
+        <th width="45%">Padrão</th>
+        <th>Ignora</th>
+      </tr>
+      <tr>
+        <td><code>*.log</code></td>
+        <td>Todos os arquivos .log</td>
+      </tr>
+      <tr>
+        <td><code>node_modules/</code></td>
+        <td>A pasta inteira</td>
+      </tr>
+      <tr>
+        <td><code>/build</code></td>
+        <td>Apenas na raiz do projeto</td>
+      </tr>
+      <tr>
+        <td><code>**/temp</code></td>
+        <td>Em qualquer subpasta</td>
+      </tr>
+      <tr>
+        <td><code>!importante.log</code></td>
+        <td>Exceção (não ignora)</td>
+      </tr>
+      <tr>
+        <td><code># comentário</code></td>
+        <td>Linha de comentário</td>
+      </tr>
+      <tr>
+        <td><code>.env</code></td>
+        <td>Variáveis de ambiente</td>
+      </tr>
+      <tr>
+        <td><code>dist/</code></td>
+        <td>Pasta de build/distribuição</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🚑 Situações de Emergência</h2>
+
+    <h3>Commitei no branch errado</h3>
+    <pre><code>git reset HEAD~1                    # desfaz o commit
+git stash                           # guarda alterações
+git switch branch-correto           # vai para o branch certo
+git stash pop                       # aplica alterações
+git add . && git commit -m "msg"    # commita no lugar certo</code></pre>
+
+    <h3>Preciso desfazer um push</h3>
+    <pre><code>git revert &lt;hash&gt;                   # cria commit de reversão
+git push origin main                # envia (seguro para branches públicos)</code></pre>
+
+    <h3>Conflito no merge</h3>
+    <pre><code># 1. Edite os arquivos com conflito (&lt;&lt;&lt;&lt;&lt;&lt;&lt; ======= &gt;&gt;&gt;&gt;&gt;&gt;&gt;)
+git add &lt;arquivos-resolvidos&gt;       # marca como resolvido
+git commit                          # finaliza o merge
+# OU para cancelar:
+git merge --abort</code></pre>
+
+    <h3>Recuperar commit "perdido"</h3>
+    <pre><code>git reflog                          # encontra o hash
+git checkout &lt;hash&gt;                 # testa
+git branch recuperado &lt;hash&gt;        # cria branch apontando para ele</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🧭 Fluxo de Trabalho Típico</h2>
+    <pre><code># 1. Clonar o projeto
+git clone https://github.com/user/repo.git
+cd repo
+
+# 2. Criar branch para a feature
+git switch -c feat/nova-funcionalidade
+
+# 3. Trabalhar e commitar
+git add .
+git commit -m "feat: adiciona nova funcionalidade"
+
+# 4. Manter atualizado com o remoto
+git fetch origin
+git rebase origin/main
+
+# 5. Enviar para o remoto
+git push -u origin feat/nova-funcionalidade
+
+# 6. Abrir Pull Request no GitHub/GitLab</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>📊 Fluxo de Estados do Git</h2>
+    <pre><code>  Working Dir        Staging Area        Local Repo         Remote Repo
+  ────────────       ─────────────       ───────────        ────────────
+                        git add            git commit         git push
+   (edição)    ────►   (staged)   ────►   (commitado)  ────►  (remoto)
+                                                                    │
+                        git restore        git reset              │
+   (edição)    ◄────   (remover)   ◄────   (desfazer)  ◄────  git pull
+                                                              git fetch</code></pre>
+
+    <div class="footer">
+      Referência Completa de Git • Página para impressão
+    </div>
+
+    <script>
+      (function () {
+        const btn = document.getElementById("themeToggle");
+        const html = document.documentElement;
+
+        function applyTheme(theme) {
+          if (theme === "dark") {
+            html.classList.add("dark");
+            btn.textContent = "☀️";
+            btn.title = "Mudar para modo claro";
+          } else {
+            html.classList.remove("dark");
+            btn.textContent = "🌙";
+            btn.title = "Mudar para modo escuro";
+          }
+        }
+
+        const saved = localStorage.getItem("theme") || "light";
+        applyTheme(saved);
+
+        btn.addEventListener("click", function () {
+          const current = html.classList.contains("dark") ? "dark" : "light";
+          const next = current === "dark" ? "light" : "dark";
+          localStorage.setItem("theme", next);
+          applyTheme(next);
+        });
+      })();
+    </script>
+  </body>
+</html>

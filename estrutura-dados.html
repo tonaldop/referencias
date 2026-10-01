@@ -1,0 +1,1094 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estrutura de Dados e Lógica - Referência Completa</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text: #222222;
+        --text-soft: #666666;
+        --text-muted: #888888;
+        --border: #cccccc;
+        --border-soft: #dddddd;
+        --h2-bg: #333333;
+        --h2-text: #ffffff;
+        --th-bg: #f0f0f0;
+        --code-bg: #f5f5f5;
+        --code-text: #c7254e;
+        --code-cell-text: #333333;
+        --pre-bg: #2d2d2d;
+        --pre-text: #f8f8f2;
+        --tip-bg: #e8f5e9;
+        --tip-border: #2e7d32;
+        --warn-bg: #fff3e0;
+        --warn-border: #e65100;
+        --toggle-bg: #333333;
+        --toggle-text: #ffffff;
+        --link: #3b82f6;
+      }
+      html.dark {
+        --bg: #1a1a1a;
+        --text: #e6e6e6;
+        --text-soft: #b0b0b0;
+        --text-muted: #888888;
+        --border: #3a3a3a;
+        --border-soft: #2e2e2e;
+        --h2-bg: #0d0d0d;
+        --h2-text: #ffffff;
+        --th-bg: #2a2a2a;
+        --code-bg: #2a2a2a;
+        --code-text: #ff8fa3;
+        --code-cell-text: #e6e6e6;
+        --pre-bg: #0d0d0d;
+        --pre-text: #e6e6e6;
+        --tip-bg: #1b3a1e;
+        --tip-border: #4caf50;
+        --warn-bg: #3a2410;
+        --warn-border: #ff9800;
+        --toggle-bg: #f0f0f0;
+        --toggle-text: #1a1a1a;
+        --link: #60a5fa;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        background: var(--bg);
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        max-width: 950px;
+        margin: 20px auto;
+        padding: 20px;
+        color: var(--text);
+        line-height: 1.5;
+      }
+      h1 {
+        text-align: center;
+        border-bottom: 3px solid var(--text);
+        padding-bottom: 10px;
+        margin-bottom: 5px;
+      }
+      .subtitle {
+        text-align: center;
+        color: var(--text-soft);
+        margin-bottom: 25px;
+        font-size: 0.9em;
+      }
+      h2 {
+        background: var(--h2-bg);
+        color: var(--h2-text);
+        padding: 8px 12px;
+        margin-top: 25px;
+        border-radius: 4px;
+        font-size: 1.1em;
+      }
+      h3 {
+        color: var(--text);
+        font-size: 1em;
+        margin-top: 18px;
+        margin-bottom: 6px;
+        border-left: 4px solid var(--text-soft);
+        padding-left: 8px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        page-break-inside: avoid;
+      }
+      th,
+      td {
+        border: 1px solid var(--border);
+        padding: 8px 10px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: var(--th-bg);
+        font-weight: bold;
+      }
+      code {
+        background: var(--code-bg);
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 0.92em;
+        color: var(--code-text);
+      }
+      td:first-child code {
+        background: transparent;
+        color: var(--code-cell-text);
+        font-weight: bold;
+        padding: 0;
+      }
+      pre {
+        background: var(--pre-bg);
+        color: var(--pre-text);
+        padding: 10px 12px;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 0.85em;
+        line-height: 1.4;
+        margin-top: 8px;
+        page-break-inside: avoid;
+      }
+      pre code {
+        background: transparent;
+        color: inherit;
+        padding: 0;
+        font-weight: normal;
+      }
+      a {
+        color: var(--link);
+      }
+      .tip {
+        background: var(--tip-bg);
+        border-left: 4px solid var(--tip-border);
+        padding: 8px 12px;
+        margin: 10px 0;
+        border-radius: 0 4px 4px 0;
+        font-size: 0.9em;
+      }
+      .warn {
+        background: var(--warn-bg);
+        border-left: 4px solid var(--warn-border);
+        padding: 8px 12px;
+        margin: 10px 0;
+        border-radius: 0 4px 4px 0;
+        font-size: 0.9em;
+      }
+      .footer {
+        margin-top: 30px;
+        text-align: center;
+        font-size: 0.8em;
+        color: var(--text-muted);
+        border-top: 1px solid var(--border-soft);
+        padding-top: 10px;
+      }
+      .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--toggle-bg);
+        color: var(--toggle-text);
+        border: none;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        font-size: 1.3em;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        transition: transform 0.2s ease, background 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .theme-toggle:hover {
+        transform: scale(1.1);
+      }
+      .theme-toggle:active {
+        transform: scale(0.95);
+      }
+      @page {
+        margin: 15mm 12mm 18mm 12mm;
+        @bottom-center {
+          content: "Página " counter(page) " de " counter(pages);
+          font-family: "Segoe UI", Arial, sans-serif;
+          font-size: 9pt;
+          color: #666;
+        }
+      }
+      @media print {
+        body {
+          margin: 0;
+          padding: 15px;
+          font-size: 10.5pt;
+          background: #ffffff !important;
+          color: #222222 !important;
+        }
+        .theme-toggle,
+        .no-print {
+          display: none !important;
+        }
+        h2 {
+          background: #333 !important;
+          color: #fff !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        th {
+          background: #f0f0f0 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        pre {
+          background: #2d2d2d !important;
+          color: #f8f8f2 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .tip,
+        .warn {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        html.dark {
+          --bg: #ffffff;
+          --text: #222222;
+          --border: #cccccc;
+          --th-bg: #f0f0f0;
+          --code-bg: #f5f5f5;
+          --code-text: #c7254e;
+          --code-cell-text: #333333;
+          --pre-bg: #2d2d2d;
+          --pre-text: #f8f8f2;
+          --h2-bg: #333333;
+          --h2-text: #ffffff;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      class="theme-toggle no-print"
+      id="themeToggle"
+      title="Alternar tema claro/escuro"
+      aria-label="Alternar tema"
+    >
+      🌙
+    </button>
+
+    <h1>🧠 Estrutura de Dados e Lógica — Referência</h1>
+    <p class="subtitle">
+      Fundamentos de programação aplicáveis a qualquer linguagem
+    </p>
+
+    <!-- ============================================================ -->
+    <h2>💾 Tipos Primitivos</h2>
+    <table>
+      <tr>
+        <th width="30%">Tipo</th>
+        <th>Descrição</th>
+        <th width="25%">Exemplos</th>
+      </tr>
+      <tr>
+        <td><code>int</code> / <code>integer</code></td>
+        <td>Números inteiros</td>
+        <td><code>0, -5, 42</code></td>
+      </tr>
+      <tr>
+        <td><code>float</code> / <code>double</code></td>
+        <td>Números decimais</td>
+        <td><code>3.14, -0.5</code></td>
+      </tr>
+      <tr>
+        <td><code>char</code></td>
+        <td>Um caractere</td>
+        <td><code>'A'</code> (só em C/Java)</td>
+      </tr>
+      <tr>
+        <td><code>string</code></td>
+        <td>Texto (cadeia de caracteres)</td>
+        <td><code>"Olá"</code></td>
+      </tr>
+      <tr>
+        <td><code>bool</code> / <code>boolean</code></td>
+        <td>Verdadeiro ou falso</td>
+        <td><code>true, false</code></td>
+      </tr>
+      <tr>
+        <td><code>null</code> / <code>None</code> / <code>nil</code></td>
+        <td>Ausência de valor</td>
+        <td><code>null</code></td>
+      </tr>
+    </table>
+
+    <div class="tip">
+      💡 <strong>Booleanos em outras linguagens:</strong> em Python é <code>True</code>/<code>False</code> (maiúsculo); em C, <code>0</code> é falso e qualquer outro valor é verdadeiro.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>➕ Operadores Aritméticos</h2>
+    <table>
+      <tr>
+        <th width="15%">Operador</th>
+        <th width="20%">Nome</th>
+        <th>Exemplo</th>
+        <th>Resultado</th>
+      </tr>
+      <tr>
+        <td><code>+</code></td>
+        <td>Adição</td>
+        <td><code>5 + 3</code></td>
+        <td><code>8</code></td>
+      </tr>
+      <tr>
+        <td><code>-</code></td>
+        <td>Subtração</td>
+        <td><code>5 - 3</code></td>
+        <td><code>2</code></td>
+      </tr>
+      <tr>
+        <td><code>*</code></td>
+        <td>Multiplicação</td>
+        <td><code>5 * 3</code></td>
+        <td><code>15</code></td>
+      </tr>
+      <tr>
+        <td><code>/</code></td>
+        <td>Divisão</td>
+        <td><code>10 / 3</code></td>
+        <td><code>3.33...</code></td>
+      </tr>
+      <tr>
+        <td><code>//</code> ou <code>div</code></td>
+        <td>Divisão inteira</td>
+        <td><code>10 // 3</code></td>
+        <td><code>3</code></td>
+      </tr>
+      <tr>
+        <td><code>%</code></td>
+        <td>Módulo (resto)</td>
+        <td><code>10 % 3</code></td>
+        <td><code>1</code></td>
+      </tr>
+      <tr>
+        <td><code>**</code> ou <code>^</code></td>
+        <td>Potência</td>
+        <td><code>2 ** 3</code></td>
+        <td><code>8</code></td>
+      </tr>
+    </table>
+
+    <div class="warn">
+      ⚠️ <strong>Cuidado:</strong> em C/Java/JS, <code>/</code> entre dois inteiros faz <strong>divisão inteira</strong> (ex: <code>5/2 = 2</code>). Em Python 3, <code>5/2 = 2.5</code>.
+    </div>
+
+    <h3>Precedência (ordem de execução)</h3>
+    <pre><code>1º  ( )          → parênteses
+2º  ** / ^       → potência
+3º  * / // %     → multiplicação, divisão, módulo
+4º  + -          → adição e subtração
+
+Exemplo:  2 + 3 * 4 = 2 + 12 = 14
+           (2 + 3) * 4 = 5 * 4 = 20</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🔍 Operadores Relacionais (Comparação)</h2>
+    <table>
+      <tr>
+        <th width="15%">Operador</th>
+        <th width="20%">Significado</th>
+        <th>Exemplo</th>
+        <th>Resultado</th>
+      </tr>
+      <tr>
+        <td><code>==</code></td>
+        <td>Igual a</td>
+        <td><code>5 == 5</code></td>
+        <td><code>true</code></td>
+      </tr>
+      <tr>
+        <td><code>!=</code></td>
+        <td>Diferente de</td>
+        <td><code>5 != 3</code></td>
+        <td><code>true</code></td>
+      </tr>
+      <tr>
+        <td><code>&gt;</code></td>
+        <td>Maior que</td>
+        <td><code>5 &gt; 3</code></td>
+        <td><code>true</code></td>
+      </tr>
+      <tr>
+        <td><code>&lt;</code></td>
+        <td>Menor que</td>
+        <td><code>5 &lt; 3</code></td>
+        <td><code>false</code></td>
+      </tr>
+      <tr>
+        <td><code>&gt;=</code></td>
+        <td>Maior ou igual</td>
+        <td><code>5 &gt;= 5</code></td>
+        <td><code>true</code></td>
+      </tr>
+      <tr>
+        <td><code>&lt;=</code></td>
+        <td>Menor ou igual</td>
+        <td><code>5 &lt;= 3</code></td>
+        <td><code>false</code></td>
+      </tr>
+    </table>
+
+    <div class="warn">
+      ⚠️ <strong>Não confunda:</strong> <code>=</code> é <strong>atribuição</strong> (guarda valor). <code>==</code> é <strong>comparação</strong> (testa igualdade).
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>🔗 Operadores Lógicos</h2>
+    <table>
+      <tr>
+        <th width="20%">Operador</th>
+        <th width="20%">Nome</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td><code>AND</code> / <code>&amp;&amp;</code></td>
+        <td>E lógico</td>
+        <td>Verdadeiro se <strong>ambos</strong> forem verdadeiros</td>
+      </tr>
+      <tr>
+        <td><code>OR</code> / <code>||</code></td>
+        <td>OU lógico</td>
+        <td>Verdadeiro se <strong>pelo menos um</strong> for verdadeiro</td>
+      </tr>
+      <tr>
+        <td><code>NOT</code> / <code>!</code></td>
+        <td>Negação</td>
+        <td>Inverte o valor lógico</td>
+      </tr>
+      <tr>
+        <td><code>XOR</code> / <code>^</code></td>
+        <td>OU exclusivo</td>
+        <td>Verdadeiro se <strong>apenas um</strong> for verdadeiro</td>
+      </tr>
+    </table>
+
+    <h3>Tabela-verdade completa</h3>
+    <table>
+      <tr>
+        <th>A</th>
+        <th>B</th>
+        <th>A AND B</th>
+        <th>A OR B</th>
+        <th>A XOR B</th>
+        <th>NOT A</th>
+      </tr>
+      <tr>
+        <td>V</td>
+        <td>V</td>
+        <td><strong>V</strong></td>
+        <td><strong>V</strong></td>
+        <td>F</td>
+        <td>F</td>
+      </tr>
+      <tr>
+        <td>V</td>
+        <td>F</td>
+        <td>F</td>
+        <td><strong>V</strong></td>
+        <td><strong>V</strong></td>
+        <td>F</td>
+      </tr>
+      <tr>
+        <td>F</td>
+        <td>V</td>
+        <td>F</td>
+        <td><strong>V</strong></td>
+        <td><strong>V</strong></td>
+        <td><strong>V</strong></td>
+      </tr>
+      <tr>
+        <td>F</td>
+        <td>F</td>
+        <td>F</td>
+        <td>F</td>
+        <td>F</td>
+        <td><strong>V</strong></td>
+      </tr>
+    </table>
+
+    <div class="tip">
+      💡 <strong>Comparações em cadeia (Python):</strong> <code>1 &lt; x &lt; 10</code> testa se x está entre 1 e 10.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>📝 Expressões Aritméticas — Exemplos</h2>
+    <table>
+      <tr>
+        <th width="50%">Expressão</th>
+        <th>Resultado</th>
+      </tr>
+      <tr>
+        <td><code>2 + 3 * 4</code></td>
+        <td><code>14</code> (multiplicação antes)</td>
+      </tr>
+      <tr>
+        <td><code>(2 + 3) * 4</code></td>
+        <td><code>20</code> (parênteses primeiro)</td>
+      </tr>
+      <tr>
+        <td><code>10 / 3</code></td>
+        <td><code>3.33...</code></td>
+      </tr>
+      <tr>
+        <td><code>10 // 3</code></td>
+        <td><code>3</code> (divisão inteira)</td>
+      </tr>
+      <tr>
+        <td><code>10 % 3</code></td>
+        <td><code>1</code> (resto)</td>
+      </tr>
+      <tr>
+        <td><code>2 ** 10</code></td>
+        <td><code>1024</code></td>
+      </tr>
+      <tr>
+        <td><code>5 &gt; 3 AND 2 &lt; 4</code></td>
+        <td><code>true</code></td>
+      </tr>
+      <tr>
+        <td><code>5 &gt; 3 OR 2 &gt; 4</code></td>
+        <td><code>true</code></td>
+      </tr>
+      <tr>
+        <td><code>NOT (5 &gt; 3)</code></td>
+        <td><code>false</code></td>
+      </tr>
+      <tr>
+        <td><code>(10 + 5) % 3 == 0</code></td>
+        <td><code>true</code> (15 % 3 = 0)</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>📊 Estruturas de Dados — Visão Geral</h2>
+    <table>
+      <tr>
+        <th width="20%">Estrutura</th>
+        <th>Característica</th>
+        <th width="25%">Exemplos</th>
+      </tr>
+      <tr>
+        <td><strong>Array / Vetor</strong></td>
+        <td>Tamanho fixo, acesso por índice</td>
+        <td><code>[10, 20, 30]</code></td>
+      </tr>
+      <tr>
+        <td><strong>Lista</strong></td>
+        <td>Tamanho dinâmico, ordenada</td>
+        <td><code>[1, 2, 3]</code></td>
+      </tr>
+      <tr>
+        <td><strong>Matriz</strong></td>
+        <td>Array bidimensional (linhas × colunas)</td>
+        <td><code>[[1,2],[3,4]]</code></td>
+      </tr>
+      <tr>
+        <td><strong>Pilha (Stack)</strong></td>
+        <td>LIFO — último entra, primeiro sai</td>
+        <td>Pilha de pratos</td>
+      </tr>
+      <tr>
+        <td><strong>Fila (Queue)</strong></td>
+        <td>FIFO — primeiro entra, primeiro sai</td>
+        <td>Fila do banco</td>
+      </tr>
+      <tr>
+        <td><strong>Dicionário / Mapa</strong></td>
+        <td>Pares chave → valor</td>
+        <td><code>{"nome": "Ana"}</code></td>
+      </tr>
+      <tr>
+        <td><strong>Conjunto (Set)</strong></td>
+        <td>Valores únicos, sem ordem</td>
+        <td><code>{1, 2, 3}</code></td>
+      </tr>
+      <tr>
+        <td><strong>Árvore (Tree)</strong></td>
+        <td>Hierarquia (nó raiz + filhos)</td>
+        <td>Sistema de arquivos</td>
+      </tr>
+      <tr>
+        <td><strong>Grafo (Graph)</strong></td>
+        <td>Nós conectados por arestas</td>
+        <td>Redes sociais, mapas</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>📚 Array / Vetor</h2>
+    <pre><code>// Criar
+numeros = [10, 20, 30, 40, 50]
+matriz  = [[1, 2], [3, 4]]
+
+// Acessar (índice começa em 0)
+numeros[0]     → 10
+numeros[2]     → 30
+numeros[-1]    → 50 (último, em Python)
+
+// Modificar
+numeros[1] = 25
+
+// Tamanho
+len(numeros)   → 5
+
+// Percorrer
+for n in numeros:
+    print(n)</code></pre>
+
+    <div class="tip">
+      💡 <strong>Índice começa em 0</strong> na maioria das linguagens (C, Java, Python, JS). Algumas como Lua e R começam em 1.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>🥞 Pilha (Stack) — LIFO</h2>
+    <pre><code>Último a entrar, primeiro a sair
+Exemplo: histórico do navegador, Ctrl+Z
+
+      ┌─────┐
+      │  C  │  ← topo (push/pop)
+      ├─────┤
+      │  B  │
+      ├─────┤
+      │  A  │
+      └─────┘
+      base
+
+push(x)  → empilha
+pop()    → desempilha (remove o do topo)
+peek()   → olha o topo sem remover
+isEmpty()→ está vazia?</code></pre>
+
+    <h3>Uso em Python (list)</h3>
+    <pre><code>pilha = []
+pilha.append("A")    # push
+pilha.append("B")
+pilha.append("C")
+topo = pilha.pop()   # → "C"</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🚶 Fila (Queue) — FIFO</h2>
+    <pre><code>Primeiro a entrar, primeiro a sair
+Exemplo: fila de impressão, atendimento
+
+  entrada →  [ A | B | C | D ]  → saída
+              ↑             ↑
+             fim          início
+
+enqueue(x) → entra no fim
+dequeue()  → sai do início
+front()    → olha o primeiro
+isEmpty()  → está vazia?</code></pre>
+
+    <h3>Uso em Python (deque)</h3>
+    <pre><code>from collections import deque
+
+fila = deque()
+fila.append("A")       # entra no fim
+fila.append("B")
+primeiro = fila.popleft()  # → "A"</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🗂️ Dicionário / Mapa</h2>
+    <pre><code>pessoa = {
+    "nome": "Ana",
+    "idade": 30,
+    "cidade": "SP"
+}
+
+pessoa["nome"]         → "Ana"
+pessoa["email"] = ".." # adiciona
+del pessoa["idade"]    # remove
+"nome" in pessoa       # → true</code></pre>
+
+    <table>
+      <tr>
+        <th width="30%">Linguagem</th>
+        <th>Nome do tipo</th>
+      </tr>
+      <tr>
+        <td>Python</td>
+        <td><code>dict</code></td>
+      </tr>
+      <tr>
+        <td>Java</td>
+        <td><code>HashMap</code></td>
+      </tr>
+      <tr>
+        <td>JavaScript</td>
+        <td><code>Object</code> / <code>Map</code></td>
+      </tr>
+      <tr>
+        <td>C#</td>
+        <td><code>Dictionary</code></td>
+      </tr>
+      <tr>
+        <td>Go</td>
+        <td><code>map</code></td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🔢 Matriz (Array 2D)</h2>
+    <pre><code>matriz = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+
+matriz[0][0] → 1   (linha 0, coluna 0)
+matriz[1][2] → 6   (linha 1, coluna 2)
+
+# Percorrer tudo
+for i in range(len(matriz)):
+    for j in range(len(matriz[i])):
+        print(matriz[i][j])</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🧠 Lógica de Programação — Estruturas</h2>
+
+    <h3>Condicional (if / else)</h3>
+    <pre><code>SE condição ENTÃO
+    faça isso
+SENÃO SE outra_condição ENTÃO
+    faça aquilo
+SENÃO
+    faça outra coisa
+FIM</code></pre>
+
+    <h3>Laço (while)</h3>
+    <pre><code>ENQUANTO condição FAÇA
+    instruções
+FIM ENQUANTO
+
+Exemplo: contar de 1 a 5
+i = 1
+ENQUANTO i &lt;= 5:
+    imprimir(i)
+    i = i + 1</code></pre>
+
+    <h3>Laço (for)</h3>
+    <pre><code>PARA cada item EM coleção FAÇA
+    instruções
+FIM PARA
+
+Exemplo:
+PARA i DE 1 ATÉ 5:
+    imprimir(i)</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🔁 Controle de Laço</h2>
+    <table>
+      <tr>
+        <th width="20%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>break</code></td>
+        <td>Interrompe o laço imediatamente</td>
+      </tr>
+      <tr>
+        <td><code>continue</code></td>
+        <td>Pula para a próxima iteração</td>
+      </tr>
+      <tr>
+        <td><code>return</code></td>
+        <td>Sai da função (e do laço)</td>
+      </tr>
+      <tr>
+        <td><code>pass</code> / <code>nop</code></td>
+        <td>Não faz nada (placeholder)</td>
+      </tr>
+    </table>
+
+    <pre><code>for i in range(10):
+    if i == 5:
+        break        # para quando i = 5
+    if i % 2 == 0:
+        continue     # pula pares
+    print(i)         # imprime 1, 3</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🧮 Algoritmos Clássicos Básicos</h2>
+
+    <h3>Soma de 1 até N</h3>
+    <pre><code>soma = 0
+for i in range(1, n+1):
+    soma += i</code></pre>
+
+    <h3>Maior valor de uma lista</h3>
+    <pre><code>maior = lista[0]
+for x in lista:
+    if x &gt; maior:
+        maior = x</code></pre>
+
+    <h3>Fatorial</h3>
+    <pre><code>fat = 1
+for i in range(2, n+1):
+    fat *= i
+
+# Recursivo
+def fatorial(n):
+    if n &lt;= 1:
+        return 1
+    return n * fatorial(n - 1)</code></pre>
+
+    <h3>Fibonacci</h3>
+    <pre><code>a, b = 0, 1
+for _ in range(n):
+    print(a)
+    a, b = b, a + b</code></pre>
+
+    <h3>É primo?</h3>
+    <pre><code>def eh_primo(n):
+    if n &lt; 2:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True</code></pre>
+
+    <h3>Busca linear</h3>
+    <pre><code>def busca(lista, alvo):
+    for i, x in enumerate(lista):
+        if x == alvo:
+            return i
+    return -1</code></pre>
+
+    <h3>Busca binária (lista ordenada)</h3>
+    <pre><code>def busca_binaria(lista, alvo):
+    esq, dir = 0, len(lista) - 1
+    while esq &lt;= dir:
+        meio = (esq + dir) // 2
+        if lista[meio] == alvo:
+            return meio
+        elif lista[meio] &lt; alvo:
+            esq = meio + 1
+        else:
+            dir = meio - 1
+    return -1</code></pre>
+
+    <h3>Bubble Sort</h3>
+    <pre><code>def bubble_sort(lista):
+    n = len(lista)
+    for i in range(n):
+        for j in range(n - i - 1):
+            if lista[j] &gt; lista[j+1]:
+                lista[j], lista[j+1] = lista[j+1], lista[j]
+    return lista</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>📈 Complexidade (Big-O) — Noções</h2>
+    <table>
+      <tr>
+        <th width="25%">Notação</th>
+        <th>Nome</th>
+        <th>Exemplo</th>
+      </tr>
+      <tr>
+        <td><code>O(1)</code></td>
+        <td>Constante</td>
+        <td>Acessar <code>lista[5]</code></td>
+      </tr>
+      <tr>
+        <td><code>O(log n)</code></td>
+        <td>Logarítmica</td>
+        <td>Busca binária</td>
+      </tr>
+      <tr>
+        <td><code>O(n)</code></td>
+        <td>Linear</td>
+        <td>Busca em lista</td>
+      </tr>
+      <tr>
+        <td><code>O(n log n)</code></td>
+        <td>Quase linear</td>
+        <td>Merge sort, Quick sort</td>
+      </tr>
+      <tr>
+        <td><code>O(n²)</code></td>
+        <td>Quadrática</td>
+        <td>Bubble sort</td>
+      </tr>
+      <tr>
+        <td><code>O(2ⁿ)</code></td>
+        <td>Exponencial</td>
+        <td>Fibonacci recursivo ingênuo</td>
+      </tr>
+    </table>
+
+    <div class="tip">
+      💡 <strong>Big-O</strong> mede como o tempo cresce quando a entrada aumenta. Prefira sempre complexidades menores.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>🌐 Comparação entre Linguagens</h2>
+    <table>
+      <tr>
+        <th width="20%">Conceito</th>
+        <th>Python</th>
+        <th>JavaScript</th>
+        <th>Java</th>
+        <th>Go</th>
+      </tr>
+      <tr>
+        <td>Inteiro</td>
+        <td><code>int</code></td>
+        <td><code>number</code></td>
+        <td><code>int</code></td>
+        <td><code>int</code></td>
+      </tr>
+      <tr>
+        <td>Decimal</td>
+        <td><code>float</code></td>
+        <td><code>number</code></td>
+        <td><code>double</code></td>
+        <td><code>float64</code></td>
+      </tr>
+      <tr>
+        <td>Texto</td>
+        <td><code>str</code></td>
+        <td><code>string</code></td>
+        <td><code>String</code></td>
+        <td><code>string</code></td>
+      </tr>
+      <tr>
+        <td>Booleano</td>
+        <td><code>bool</code></td>
+        <td><code>boolean</code></td>
+        <td><code>boolean</code></td>
+        <td><code>bool</code></td>
+      </tr>
+      <tr>
+        <td>Nulo</td>
+        <td><code>None</code></td>
+        <td><code>null</code></td>
+        <td><code>null</code></td>
+        <td><code>nil</code></td>
+      </tr>
+      <tr>
+        <td>Lista</td>
+        <td><code>list</code></td>
+        <td><code>Array</code></td>
+        <td><code>ArrayList</code></td>
+        <td><code>slice</code></td>
+      </tr>
+      <tr>
+        <td>Mapa</td>
+        <td><code>dict</code></td>
+        <td><code>Object</code></td>
+        <td><code>HashMap</code></td>
+        <td><code>map</code></td>
+      </tr>
+      <tr>
+        <td>E lógico</td>
+        <td><code>and</code></td>
+        <td><code>&amp;&amp;</code></td>
+        <td><code>&amp;&amp;</code></td>
+        <td><code>&amp;&amp;</code></td>
+      </tr>
+      <tr>
+        <td>Ou lógico</td>
+        <td><code>or</code></td>
+        <td><code>||</code></td>
+        <td><code>||</code></td>
+        <td><code>||</code></td>
+      </tr>
+      <tr>
+        <td>Negação</td>
+        <td><code>not</code></td>
+        <td><code>!</code></td>
+        <td><code>!</code></td>
+        <td><code>!</code></td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🚑 Erros Comuns de Iniciantes</h2>
+    <table>
+      <tr>
+        <th width="45%">Erro</th>
+        <th>Como evitar</th>
+      </tr>
+      <tr>
+        <td>Confundir <code>=</code> com <code>==</code></td>
+        <td><code>=</code> atribui, <code>==</code> compara</td>
+      </tr>
+      <tr>
+        <td>Esquecer de incrementar no <code>while</code></td>
+        <td>Loop infinito! Sempre modifique a condição</td>
+      </tr>
+      <tr>
+        <td>Divisão por zero</td>
+        <td>Verifique antes: <code>if y != 0</code></td>
+      </tr>
+      <tr>
+        <td>Índice fora do intervalo</td>
+        <td>Lista de tamanho n tem índices 0 a n-1</td>
+      </tr>
+      <tr>
+        <td>Comparar float com <code>==</code></td>
+        <td>Use tolerância: <code>abs(a - b) &lt; 0.0001</code></td>
+      </tr>
+      <tr>
+        <td>Modificar lista durante iteração</td>
+        <td>Itere sobre uma cópia</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>📋 Resumo — Fluxograma Mental</h2>
+    <pre><code>                    ┌─────────────┐
+                    │   INÍCIO    │
+                    └──────┬──────┘
+                           │
+                    ┌──────▼──────┐
+                    │  Variáveis  │
+                    │   e tipos   │
+                    └──────┬──────┘
+                           │
+                    ┌──────▼──────┐
+              ┌────►│  Condição?  │
+              │     └──────┬──────┘
+              │            │
+              │      V ────┴──── F
+              │      │          │
+              │  ┌───▼───┐  ┌───▼───┐
+              │  │ Ação  │  │ Ação  │
+              │  └───┬───┘  └───┬───┘
+              │      │          │
+              └──────┴──────────┘
+                           │
+                    ┌──────▼──────┐
+                    │    FIM      │
+                    └─────────────┘</code></pre>
+
+    <div class="footer">
+      Referência de Estrutura de Dados e Lógica • Página para impressão
+    </div>
+
+    <script>
+      (function () {
+        const btn = document.getElementById("themeToggle");
+        const html = document.documentElement;
+        function applyTheme(theme) {
+          if (theme === "dark") {
+            html.classList.add("dark");
+            btn.textContent = "☀️";
+            btn.title = "Mudar para modo claro";
+          } else {
+            html.classList.remove("dark");
+            btn.textContent = "🌙";
+            btn.title = "Mudar para modo escuro";
+          }
+        }
+        const saved = localStorage.getItem("theme") || "light";
+        applyTheme(saved);
+        btn.addEventListener("click", function () {
+          const current = html.classList.contains("dark") ? "dark" : "light";
+          const next = current === "dark" ? "light" : "dark";
+          localStorage.setItem("theme", next);
+          applyTheme(next);
+        });
+      })();
+    </script>
+  </body>
+</html>

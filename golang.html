@@ -1,0 +1,795 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Go (Golang) - Referência Completa</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text: #222222;
+        --text-soft: #666666;
+        --text-muted: #888888;
+        --border: #cccccc;
+        --border-soft: #dddddd;
+        --h2-bg: #333333;
+        --h2-text: #ffffff;
+        --th-bg: #f0f0f0;
+        --code-bg: #f5f5f5;
+        --code-text: #c7254e;
+        --code-cell-text: #333333;
+        --pre-bg: #2d2d2d;
+        --pre-text: #f8f8f2;
+        --tip-bg: #e8f5e9;
+        --tip-border: #2e7d32;
+        --warn-bg: #fff3e0;
+        --warn-border: #e65100;
+        --toggle-bg: #333333;
+        --toggle-text: #ffffff;
+        --link: #3b82f6;
+      }
+      html.dark {
+        --bg: #1a1a1a;
+        --text: #e6e6e6;
+        --text-soft: #b0b0b0;
+        --text-muted: #888888;
+        --border: #3a3a3a;
+        --border-soft: #2e2e2e;
+        --h2-bg: #0d0d0d;
+        --h2-text: #ffffff;
+        --th-bg: #2a2a2a;
+        --code-bg: #2a2a2a;
+        --code-text: #ff8fa3;
+        --code-cell-text: #e6e6e6;
+        --pre-bg: #0d0d0d;
+        --pre-text: #e6e6e6;
+        --tip-bg: #1b3a1e;
+        --tip-border: #4caf50;
+        --warn-bg: #3a2410;
+        --warn-border: #ff9800;
+        --toggle-bg: #f0f0f0;
+        --toggle-text: #1a1a1a;
+        --link: #60a5fa;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        background: var(--bg);
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        max-width: 950px;
+        margin: 20px auto;
+        padding: 20px;
+        color: var(--text);
+        line-height: 1.5;
+      }
+      h1 {
+        text-align: center;
+        border-bottom: 3px solid var(--text);
+        padding-bottom: 10px;
+        margin-bottom: 5px;
+      }
+      .subtitle {
+        text-align: center;
+        color: var(--text-soft);
+        margin-bottom: 25px;
+        font-size: 0.9em;
+      }
+      h2 {
+        background: var(--h2-bg);
+        color: var(--h2-text);
+        padding: 8px 12px;
+        margin-top: 25px;
+        border-radius: 4px;
+        font-size: 1.1em;
+      }
+      h3 {
+        color: var(--text);
+        font-size: 1em;
+        margin-top: 18px;
+        margin-bottom: 6px;
+        border-left: 4px solid var(--text-soft);
+        padding-left: 8px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        page-break-inside: avoid;
+      }
+      th,
+      td {
+        border: 1px solid var(--border);
+        padding: 8px 10px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: var(--th-bg);
+        font-weight: bold;
+      }
+      code {
+        background: var(--code-bg);
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 0.92em;
+        color: var(--code-text);
+      }
+      td:first-child code {
+        background: transparent;
+        color: var(--code-cell-text);
+        font-weight: bold;
+        padding: 0;
+      }
+      pre {
+        background: var(--pre-bg);
+        color: var(--pre-text);
+        padding: 10px 12px;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 0.85em;
+        line-height: 1.4;
+        margin-top: 8px;
+        page-break-inside: avoid;
+      }
+      pre code {
+        background: transparent;
+        color: inherit;
+        padding: 0;
+        font-weight: normal;
+      }
+      a {
+        color: var(--link);
+      }
+      .tip {
+        background: var(--tip-bg);
+        border-left: 4px solid var(--tip-border);
+        padding: 8px 12px;
+        margin: 10px 0;
+        border-radius: 0 4px 4px 0;
+        font-size: 0.9em;
+      }
+      .warn {
+        background: var(--warn-bg);
+        border-left: 4px solid var(--warn-border);
+        padding: 8px 12px;
+        margin: 10px 0;
+        border-radius: 0 4px 4px 0;
+        font-size: 0.9em;
+      }
+      .footer {
+        margin-top: 30px;
+        text-align: center;
+        font-size: 0.8em;
+        color: var(--text-muted);
+        border-top: 1px solid var(--border-soft);
+        padding-top: 10px;
+      }
+      .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--toggle-bg);
+        color: var(--toggle-text);
+        border: none;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        font-size: 1.3em;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        transition: transform 0.2s ease, background 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .theme-toggle:hover {
+        transform: scale(1.1);
+      }
+      .theme-toggle:active {
+        transform: scale(0.95);
+      }
+      @page {
+        margin: 15mm 12mm 18mm 12mm;
+        @bottom-center {
+          content: "Página " counter(page) " de " counter(pages);
+          font-family: "Segoe UI", Arial, sans-serif;
+          font-size: 9pt;
+          color: #666;
+        }
+      }
+      @media print {
+        body {
+          margin: 0;
+          padding: 15px;
+          font-size: 10.5pt;
+          background: #ffffff !important;
+          color: #222222 !important;
+        }
+        .theme-toggle,
+        .no-print {
+          display: none !important;
+        }
+        h2 {
+          background: #333 !important;
+          color: #fff !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        th {
+          background: #f0f0f0 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        pre {
+          background: #2d2d2d !important;
+          color: #f8f8f2 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .tip,
+        .warn {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        html.dark {
+          --bg: #ffffff;
+          --text: #222222;
+          --border: #cccccc;
+          --th-bg: #f0f0f0;
+          --code-bg: #f5f5f5;
+          --code-text: #c7254e;
+          --code-cell-text: #333333;
+          --pre-bg: #2d2d2d;
+          --pre-text: #f8f8f2;
+          --h2-bg: #333333;
+          --h2-text: #ffffff;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      class="theme-toggle no-print"
+      id="themeToggle"
+      title="Alternar tema claro/escuro"
+      aria-label="Alternar tema"
+    >
+      🌙
+    </button>
+
+    <h1>🐹 Go (Golang) — Referência Completa</h1>
+    <p class="subtitle">Sintaxe, tipos, concorrência e boas práticas</p>
+
+    <!-- ============================================================ -->
+    <h2>🚀 Começando</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>go mod init meuapp</code></td>
+        <td>Cria um novo módulo</td>
+      </tr>
+      <tr>
+        <td><code>go run main.go</code></td>
+        <td>Compila e executa</td>
+      </tr>
+      <tr>
+        <td><code>go build</code></td>
+        <td>Gera o binário</td>
+      </tr>
+      <tr>
+        <td><code>go test ./...</code></td>
+        <td>Roda todos os testes</td>
+      </tr>
+      <tr>
+        <td><code>go fmt ./...</code></td>
+        <td>Formata todo o código</td>
+      </tr>
+      <tr>
+        <td><code>go vet ./...</code></td>
+        <td>Analisa erros comuns</td>
+      </tr>
+      <tr>
+        <td><code>go get pacote</code></td>
+        <td>Baixa uma dependência</td>
+      </tr>
+      <tr>
+        <td><code>go mod tidy</code></td>
+        <td>Limpa/organiza dependências</td>
+      </tr>
+    </table>
+
+    <h3>Estrutura básica</h3>
+    <pre><code>package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Olá, mundo!")
+}</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>📦 Variáveis e Constantes</h2>
+    <table>
+      <tr>
+        <th width="45%">Sintaxe</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>var x int = 10</code></td>
+        <td>Declaração explícita</td>
+      </tr>
+      <tr>
+        <td><code>var x = 10</code></td>
+        <td>Tipo inferido</td>
+      </tr>
+      <tr>
+        <td><code>x := 10</code></td>
+        <td>Declaração curta (dentro de função)</td>
+      </tr>
+      <tr>
+        <td><code>const Pi = 3.14</code></td>
+        <td>Constante</td>
+      </tr>
+      <tr>
+        <td><code>var a, b int = 1, 2</code></td>
+        <td>Múltiplas variáveis</td>
+      </tr>
+      <tr>
+        <td><code>_, err := f()</code></td>
+        <td>Ignora um retorno com <code>_</code></td>
+      </tr>
+    </table>
+
+    <h3>Tipos básicos</h3>
+    <table>
+      <tr>
+        <th width="35%">Tipo</th>
+        <th>Uso</th>
+      </tr>
+      <tr>
+        <td><code>int</code>, <code>int8/16/32/64</code></td>
+        <td>Inteiros (com sinal)</td>
+      </tr>
+      <tr>
+        <td><code>uint</code>, <code>uint8/16/32/64</code></td>
+        <td>Inteiros (sem sinal)</td>
+      </tr>
+      <tr>
+        <td><code>float32</code>, <code>float64</code></td>
+        <td>Ponto flutuante</td>
+      </tr>
+      <tr>
+        <td><code>string</code></td>
+        <td>Texto (UTF-8)</td>
+      </tr>
+      <tr>
+        <td><code>bool</code></td>
+        <td>Verdadeiro/falso</td>
+      </tr>
+      <tr>
+        <td><code>byte</code></td>
+        <td>Alias de <code>uint8</code></td>
+      </tr>
+      <tr>
+        <td><code>rune</code></td>
+        <td>Alias de <code>int32</code> (caractere Unicode)</td>
+      </tr>
+      <tr>
+        <td><code>error</code></td>
+        <td>Interface de erro</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🔀 Controle de Fluxo</h2>
+
+    <h3>if / else</h3>
+    <pre><code>if x &gt; 10 {
+    fmt.Println("maior")
+} else if x == 10 {
+    fmt.Println("igual")
+} else {
+    fmt.Println("menor")
+}</code></pre>
+
+    <h3>for (único loop em Go)</h3>
+    <pre><code>for i := 0; i &lt; 10; i++ { fmt.Println(i) }   // clássico
+for i &lt; 10 { ... }                          // tipo while
+for { ... }                                 // infinito
+for i, v := range lista { ... }             // range</code></pre>
+
+    <h3>switch</h3>
+    <pre><code>switch dia {
+case 1, 7:
+    fmt.Println("Fim de semana")
+case 2, 3, 4, 5, 6:
+    fmt.Println("Dia útil")
+default:
+    fmt.Println("Inválido")
+}</code></pre>
+
+    <div class="tip">
+      💡 <strong>Dica:</strong> em Go <strong>não existe <code>while</code></strong> — use <code>for</code> com condição única.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>🧩 Funções</h2>
+    <pre><code>func soma(a, b int) int {
+    return a + b
+}
+
+// Múltiplos retornos
+func divmod(a, b int) (int, int) {
+    return a / b, a % b
+}
+
+// Retornos nomeados
+func divmod(a, b int) (q, r int) {
+    q = a / b
+    r = a % b
+    return
+}
+
+// Variádica
+func soma(nums ...int) int {
+    total := 0
+    for _, n := range nums { total += n }
+    return total
+}</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>📊 Arrays e Slices</h2>
+    <table>
+      <tr>
+        <th width="45%">Sintaxe</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>var a [5]int</code></td>
+        <td>Array fixo de 5 posições</td>
+      </tr>
+      <tr>
+        <td><code>s := []int{1, 2, 3}</code></td>
+        <td>Slice (dinâmico)</td>
+      </tr>
+      <tr>
+        <td><code>s := make([]int, 5)</code></td>
+        <td>Slice de tamanho 5</td>
+      </tr>
+      <tr>
+        <td><code>s = append(s, 4)</code></td>
+        <td>Adiciona elemento</td>
+      </tr>
+      <tr>
+        <td><code>len(s)</code> / <code>cap(s)</code></td>
+        <td>Tamanho / capacidade</td>
+      </tr>
+      <tr>
+        <td><code>s[1:3]</code></td>
+        <td>Fatia (índices 1 e 2)</td>
+      </tr>
+    </table>
+
+    <h3>Mapas (maps)</h3>
+    <pre><code>m := map[string]int{
+    "a": 1,
+    "b": 2,
+}
+m["c"] = 3
+delete(m, "a")
+
+if v, ok := m["b"]; ok {
+    fmt.Println("existe:", v)
+}</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🏗️ Structs e Métodos</h2>
+    <pre><code>type Pessoa struct {
+    Nome string
+    Idade int
+}
+
+// Método com receptor de valor
+func (p Pessoa) Saudacao() string {
+    return "Olá, " + p.Nome
+}
+
+// Método com receptor ponteiro (modifica)
+func (p *Pessoa) Aniversario() {
+    p.Idade++
+}
+
+p := Pessoa{Nome: "Ana", Idade: 30}
+p.Aniversario()
+fmt.Println(p.Saudacao(), p.Idade)</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🔌 Interfaces</h2>
+    <pre><code>type Animal interface {
+    Som() string
+}
+
+type Cachorro struct{}
+func (c Cachorro) Som() string { return "Au au" }
+
+type Gato struct{}
+func (g Gato) Som() string { return "Miau" }
+
+func fazerSom(a Animal) {
+    fmt.Println(a.Som())
+}</code></pre>
+
+    <div class="tip">
+      💡 <strong>Implicit interface:</strong> em Go, um tipo <em>implementa</em> uma interface apenas por ter os métodos — sem <code>implements</code>.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>⚠️ Tratamento de Erros</h2>
+    <pre><code>// Erros são valores comuns
+f, err := os.Open("arquivo.txt")
+if err != nil {
+    log.Fatal(err)
+}
+defer f.Close()
+
+// Criando erros
+return fmt.Errorf("falha ao processar: %w", err)
+
+// Erros customizados
+var ErrNaoEncontrado = errors.New("não encontrado")
+
+// Verificando
+if errors.Is(err, ErrNaoEncontrado) { ... }</code></pre>
+
+    <div class="warn">
+      ⚠️ Go <strong>não tem try/catch</strong>. Use <code>if err != nil</code> sempre. <code>panic</code>/<code>recover</code> só em casos extremos.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>🧵 Concorrência — Goroutines</h2>
+    <pre><code>// Goroutine: roda em paralelo
+go minhaFuncao()
+
+// Exemplo com WaitGroup
+var wg sync.WaitGroup
+for i := 0; i &lt; 5; i++ {
+    wg.Add(1)
+    go func(n int) {
+        defer wg.Done()
+        fmt.Println(n)
+    }(i)
+}
+wg.Wait()</code></pre>
+
+    <h3>Canais (channels)</h3>
+    <pre><code>ch := make(chan int)
+
+go func() { ch &lt;- 42 }()   // envia
+valor := &lt;-ch              // recebe
+
+// Canal com buffer
+ch := make(chan int, 3)
+
+// Select (multiplexação)
+select {
+case v := &lt;-ch1:
+    fmt.Println("ch1:", v)
+case v := &lt;-ch2:
+    fmt.Println("ch2:", v)
+case &lt;-time.After(time.Second):
+    fmt.Println("timeout")
+}</code></pre>
+
+    <div class="tip">
+      💡 <strong>Regra de ouro:</strong> nunca compartilhe memória — comunique-se por canais.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>📂 Pacotes e Imports</h2>
+    <pre><code>import (
+    "fmt"
+    "os"
+    "meuapp/utils"        // pacote local
+    _ "github.com/lib/pq" // import só pelo side-effect
+    m "meuapp/model"      // alias
+)</code></pre>
+
+    <div class="tip">
+      💡 Em Go, o nome exportado começa com <strong>letra maiúscula</strong>: <code>MinhaFuncao</code> é público, <code>minhaFuncao</code> é privado do pacote.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>🧪 Testes</h2>
+    <pre><code>// arquivo: soma_test.go
+package main
+
+import "testing"
+
+func TestSoma(t *testing.T) {
+    got := soma(2, 3)
+    want := 5
+    if got != want {
+        t.Errorf("soma(2,3) = %d; want %d", got, want)
+    }
+}
+
+// Table-driven test (idiomático)
+func TestSomaTabela(t *testing.T) {
+    casos := []struct{ a, b, want int }{
+        {1, 2, 3},
+        {0, 0, 0},
+        {-1, 1, 0},
+    }
+    for _, c := range casos {
+        if got := soma(c.a, c.b); got != c.want {
+            t.Errorf("soma(%d,%d) = %d; want %d", c.a, c.b, got, c.want)
+        }
+    }
+}</code></pre>
+
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>go test</code></td>
+        <td>Roda testes do pacote atual</td>
+      </tr>
+      <tr>
+        <td><code>go test -v</code></td>
+        <td>Modo verboso</td>
+      </tr>
+      <tr>
+        <td><code>go test -cover</code></td>
+        <td>Mostra cobertura</td>
+      </tr>
+      <tr>
+        <td><code>go test -run TestSoma</code></td>
+        <td>Roda um teste específico</td>
+      </tr>
+      <tr>
+        <td><code>go test -bench=.</code></td>
+        <td>Roda benchmarks</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>📁 Manipulação de Arquivos</h2>
+    <pre><code>// Ler arquivo inteiro
+data, err := os.ReadFile("file.txt")
+if err != nil { log.Fatal(err) }
+fmt.Println(string(data))
+
+// Escrever
+err = os.WriteFile("out.txt", []byte("texto"), 0644)
+
+// Ler linha por linha
+f, _ := os.Open("file.txt")
+defer f.Close()
+sc := bufio.NewScanner(f)
+for sc.Scan() {
+    fmt.Println(sc.Text())
+}</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🌐 HTTP Server básico</h2>
+    <pre><code>package main
+
+import (
+    "fmt"
+    "net/http"
+)
+
+func hello(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, "Olá, %s!", r.URL.Query().Get("nome"))
+}
+
+func main() {
+    http.HandleFunc("/hello", hello)
+    http.ListenAndServe(":8080", nil)
+}</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🎯 Boas Práticas</h2>
+    <table>
+      <tr>
+        <th width="45%">Prática</th>
+        <th>Por quê</th>
+      </tr>
+      <tr>
+        <td><code>go fmt</code> sempre</td>
+        <td>Formatação padrão da comunidade</td>
+      </tr>
+      <tr>
+        <td>Nomes curtos em escopos curtos</td>
+        <td><code>i</code>, <code>n</code>, <code>r</code> em loops</td>
+      </tr>
+      <tr>
+        <td>Retorne <code>error</code> como último valor</td>
+        <td>Convenção da linguagem</td>
+      </tr>
+      <tr>
+        <td>Prefira composição a herança</td>
+        <td>Go não tem classes</td>
+      </tr>
+      <tr>
+        <td>Use <code>context.Context</code></td>
+        <td>Cancelamento e timeouts</td>
+      </tr>
+      <tr>
+        <td>Evite <code>panic</code> em libs</td>
+        <td>Retorne <code>error</code></td>
+      </tr>
+      <tr>
+        <td>Documente funções exportadas</td>
+        <td>Começa com o nome da função</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🚑 Situações Comuns</h2>
+
+    <h3>Ler JSON</h3>
+    <pre><code>type User struct {
+    Nome  string `json:"nome"`
+    Email string `json:"email"`
+}
+
+var u User
+err := json.Unmarshal(data, &u)</code></pre>
+
+    <h3>Escrever JSON</h3>
+    <pre><code>out, _ := json.Marshal(u)
+fmt.Println(string(out))</code></pre>
+
+    <h3>Timeout em HTTP</h3>
+    <pre><code>client := &amp;http.Client{Timeout: 5 * time.Second}
+resp, err := client.Get("https://api.com")</code></pre>
+
+    <h3>Variáveis de ambiente</h3>
+    <pre><code>porta := os.Getenv("PORT")
+if porta == "" { porta = "8080" }</code></pre>
+
+    <div class="footer">
+      Referência Completa de Go (Golang) • Página para impressão
+    </div>
+
+    <script>
+      (function () {
+        const btn = document.getElementById("themeToggle");
+        const html = document.documentElement;
+        function applyTheme(theme) {
+          if (theme === "dark") {
+            html.classList.add("dark");
+            btn.textContent = "☀️";
+            btn.title = "Mudar para modo claro";
+          } else {
+            html.classList.remove("dark");
+            btn.textContent = "🌙";
+            btn.title = "Mudar para modo escuro";
+          }
+        }
+        const saved = localStorage.getItem("theme") || "light";
+        applyTheme(saved);
+        btn.addEventListener("click", function () {
+          const current = html.classList.contains("dark") ? "dark" : "light";
+          const next = current === "dark" ? "light" : "dark";
+          localStorage.setItem("theme", next);
+          applyTheme(next);
+        });
+      })();
+    </script>
+  </body>
+</html>

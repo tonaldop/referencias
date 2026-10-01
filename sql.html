@@ -1,0 +1,1125 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MySQL / SQL - Referência Completa</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text: #222222;
+        --text-soft: #666666;
+        --text-muted: #888888;
+        --border: #cccccc;
+        --border-soft: #dddddd;
+        --h2-bg: #333333;
+        --h2-text: #ffffff;
+        --th-bg: #f0f0f0;
+        --code-bg: #f5f5f5;
+        --code-text: #c7254e;
+        --code-cell-text: #333333;
+        --pre-bg: #2d2d2d;
+        --pre-text: #f8f8f2;
+        --tip-bg: #e8f5e9;
+        --tip-border: #2e7d32;
+        --warn-bg: #fff3e0;
+        --warn-border: #e65100;
+        --toggle-bg: #333333;
+        --toggle-text: #ffffff;
+        --link: #3b82f6;
+      }
+
+      html.dark {
+        --bg: #1a1a1a;
+        --text: #e6e6e6;
+        --text-soft: #b0b0b0;
+        --text-muted: #888888;
+        --border: #3a3a3a;
+        --border-soft: #2e2e2e;
+        --h2-bg: #0d0d0d;
+        --h2-text: #ffffff;
+        --th-bg: #2a2a2a;
+        --code-bg: #2a2a2a;
+        --code-text: #ff8fa3;
+        --code-cell-text: #e6e6e6;
+        --pre-bg: #0d0d0d;
+        --pre-text: #e6e6e6;
+        --tip-bg: #1b3a1e;
+        --tip-border: #4caf50;
+        --warn-bg: #3a2410;
+        --warn-border: #ff9800;
+        --toggle-bg: #f0f0f0;
+        --toggle-text: #1a1a1a;
+        --link: #60a5fa;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        background: var(--bg);
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        max-width: 950px;
+        margin: 20px auto;
+        padding: 20px;
+        color: var(--text);
+        line-height: 1.5;
+      }
+
+      h1 {
+        text-align: center;
+        border-bottom: 3px solid var(--text);
+        padding-bottom: 10px;
+        margin-bottom: 5px;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: var(--text-soft);
+        margin-bottom: 25px;
+        font-size: 0.9em;
+      }
+
+      h2 {
+        background: var(--h2-bg);
+        color: var(--h2-text);
+        padding: 8px 12px;
+        margin-top: 25px;
+        border-radius: 4px;
+        font-size: 1.1em;
+      }
+
+      h3 {
+        color: var(--text);
+        font-size: 1em;
+        margin-top: 18px;
+        margin-bottom: 6px;
+        border-left: 4px solid var(--text-soft);
+        padding-left: 8px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        page-break-inside: avoid;
+      }
+
+      th,
+      td {
+        border: 1px solid var(--border);
+        padding: 8px 10px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: var(--th-bg);
+        font-weight: bold;
+      }
+
+      code {
+        background: var(--code-bg);
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 0.92em;
+        color: var(--code-text);
+      }
+
+      td:first-child code {
+        background: transparent;
+        color: var(--code-cell-text);
+        font-weight: bold;
+        padding: 0;
+      }
+
+      pre {
+        background: var(--pre-bg);
+        color: var(--pre-text);
+        padding: 10px 12px;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 0.85em;
+        line-height: 1.4;
+        margin-top: 8px;
+        page-break-inside: avoid;
+      }
+
+      pre code {
+        background: transparent;
+        color: inherit;
+        padding: 0;
+        font-weight: normal;
+      }
+
+      a {
+        color: var(--link);
+      }
+
+      .tip {
+        background: var(--tip-bg);
+        border-left: 4px solid var(--tip-border);
+        padding: 8px 12px;
+        margin: 10px 0;
+        border-radius: 0 4px 4px 0;
+        font-size: 0.9em;
+      }
+
+      .warn {
+        background: var(--warn-bg);
+        border-left: 4px solid var(--warn-border);
+        padding: 8px 12px;
+        margin: 10px 0;
+        border-radius: 0 4px 4px 0;
+        font-size: 0.9em;
+      }
+
+      .footer {
+        margin-top: 30px;
+        text-align: center;
+        font-size: 0.8em;
+        color: var(--text-muted);
+        border-top: 1px solid var(--border-soft);
+        padding-top: 10px;
+      }
+
+      .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--toggle-bg);
+        color: var(--toggle-text);
+        border: none;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        font-size: 1.3em;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        transition: transform 0.2s ease, background 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .theme-toggle:hover {
+        transform: scale(1.1);
+      }
+
+      .theme-toggle:active {
+        transform: scale(0.95);
+      }
+
+      @page {
+        margin: 15mm 12mm 18mm 12mm;
+
+        @bottom-center {
+          content: "Página " counter(page) " de " counter(pages);
+          font-family: "Segoe UI", Arial, sans-serif;
+          font-size: 9pt;
+          color: #666;
+        }
+      }
+
+      @media print {
+        body {
+          margin: 0;
+          padding: 15px;
+          font-size: 10.5pt;
+          background: #ffffff !important;
+          color: #222222 !important;
+        }
+
+        .theme-toggle,
+        .no-print {
+          display: none !important;
+        }
+
+        h2 {
+          background: #333 !important;
+          color: #fff !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        th {
+          background: #f0f0f0 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        pre {
+          background: #2d2d2d !important;
+          color: #f8f8f2 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        .tip,
+        .warn {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        html.dark {
+          --bg: #ffffff;
+          --text: #222222;
+          --border: #cccccc;
+          --th-bg: #f0f0f0;
+          --code-bg: #f5f5f5;
+          --code-text: #c7254e;
+          --code-cell-text: #333333;
+          --pre-bg: #2d2d2d;
+          --pre-text: #f8f8f2;
+          --h2-bg: #333333;
+          --h2-text: #ffffff;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      class="theme-toggle no-print"
+      id="themeToggle"
+      title="Alternar tema claro/escuro"
+      aria-label="Alternar tema"
+    >
+      🌙
+    </button>
+
+    <h1>🗄️ MySQL / SQL — Referência Completa</h1>
+    <p class="subtitle">Comandos essenciais, consultas e boas práticas</p>
+
+    <!-- ============================================================ -->
+    <h2>🔌 Conexão e Servidor</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>mysql -u root -p</code></td>
+        <td>Conecta como root (pede senha)</td>
+      </tr>
+      <tr>
+        <td><code>mysql -u user -p -h host</code></td>
+        <td>Conecta a um host específico</td>
+      </tr>
+      <tr>
+        <td><code>mysql -u user -p db_name</code></td>
+        <td>Conecta já usando um banco</td>
+      </tr>
+      <tr>
+        <td><code>mysql -u user -p &lt; arquivo.sql</code></td>
+        <td>Executa um script SQL</td>
+      </tr>
+      <tr>
+        <td><code>mysqldump -u user -p db &gt; backup.sql</code></td>
+        <td>Faz backup de um banco</td>
+      </tr>
+      <tr>
+        <td><code>mysql -u user -p db &lt; backup.sql</code></td>
+        <td>Restaura backup</td>
+      </tr>
+      <tr>
+        <td><code>EXIT;</code> ou <code>QUIT;</code></td>
+        <td>Sai do cliente MySQL</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🗃️ Bancos de Dados (Databases)</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>SHOW DATABASES;</code></td>
+        <td>Lista todos os bancos</td>
+      </tr>
+      <tr>
+        <td><code>CREATE DATABASE nome;</code></td>
+        <td>Cria um banco</td>
+      </tr>
+      <tr>
+        <td><code>CREATE DATABASE nome CHARACTER SET utf8mb4;</code></td>
+        <td>Cria com charset correto (acentos)</td>
+      </tr>
+      <tr>
+        <td><code>USE nome;</code></td>
+        <td>Seleciona o banco ativo</td>
+      </tr>
+      <tr>
+        <td><code>SELECT DATABASE();</code></td>
+        <td>Mostra o banco atual</td>
+      </tr>
+      <tr>
+        <td><code>DROP DATABASE nome;</code></td>
+        <td>⚠️ Apaga o banco inteiro</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>📋 Tabelas</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>SHOW TABLES;</code></td>
+        <td>Lista tabelas do banco atual</td>
+      </tr>
+      <tr>
+        <td><code>DESCRIBE tabela;</code></td>
+        <td>Mostra a estrutura da tabela</td>
+      </tr>
+      <tr>
+        <td><code>SHOW CREATE TABLE tabela;</code></td>
+        <td>Mostra o SQL de criação</td>
+      </tr>
+      <tr>
+        <td><code>DROP TABLE tabela;</code></td>
+        <td>⚠️ Apaga a tabela</td>
+      </tr>
+      <tr>
+        <td><code>TRUNCATE TABLE tabela;</code></td>
+        <td>Esvazia a tabela (mais rápido que DELETE)</td>
+      </tr>
+      <tr>
+        <td><code>RENAME TABLE a TO b;</code></td>
+        <td>Renomeia tabela</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🆕 CREATE TABLE</h2>
+    <pre><code>CREATE TABLE usuarios (
+  id         INT AUTO_INCREMENT PRIMARY KEY,
+  nome       VARCHAR(100)  NOT NULL,
+  email      VARCHAR(150)  UNIQUE NOT NULL,
+  idade      INT,
+  ativo      BOOLEAN       DEFAULT TRUE,
+  criado_em  TIMESTAMP     DEFAULT CURRENT_TIMESTAMP
+);</code></pre>
+
+    <h3>Tipos de dados mais usados</h3>
+    <table>
+      <tr>
+        <th width="35%">Tipo</th>
+        <th>Uso</th>
+      </tr>
+      <tr>
+        <td><code>INT</code> / <code>BIGINT</code></td>
+        <td>Números inteiros</td>
+      </tr>
+      <tr>
+        <td><code>DECIMAL(10,2)</code></td>
+        <td>Valores monetários (exatos)</td>
+      </tr>
+      <tr>
+        <td><code>FLOAT</code> / <code>DOUBLE</code></td>
+        <td>Números com casas decimais</td>
+      </tr>
+      <tr>
+        <td><code>VARCHAR(n)</code></td>
+        <td>Texto variável até n caracteres</td>
+      </tr>
+      <tr>
+        <td><code>TEXT</code></td>
+        <td>Textos longos</td>
+      </tr>
+      <tr>
+        <td><code>DATE</code></td>
+        <td>Data (YYYY-MM-DD)</td>
+      </tr>
+      <tr>
+        <td><code>DATETIME</code> / <code>TIMESTAMP</code></td>
+        <td>Data e hora</td>
+      </tr>
+      <tr>
+        <td><code>BOOLEAN</code></td>
+        <td>Verdadeiro/falso (TINYINT(1))</td>
+      </tr>
+      <tr>
+        <td><code>ENUM('a','b')</code></td>
+        <td>Lista fixa de valores</td>
+      </tr>
+      <tr>
+        <td><code>JSON</code></td>
+        <td>Documento JSON</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>➕ INSERT (Inserir dados)</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>INSERT INTO t (c1,c2) VALUES (v1,v2);</code></td>
+        <td>Insere uma linha</td>
+      </tr>
+      <tr>
+        <td><code>INSERT INTO t VALUES (v1,v2);</code></td>
+        <td>Insere todos os campos na ordem</td>
+      </tr>
+      <tr>
+        <td><code>INSERT INTO t (c1) VALUES (v1),(v2),(v3);</code></td>
+        <td>Múltiplas linhas de uma vez</td>
+      </tr>
+      <tr>
+        <td><code>INSERT INTO t SELECT ...;</code></td>
+        <td>Insere a partir de outra consulta</td>
+      </tr>
+      <tr>
+        <td><code>INSERT IGNORE INTO t ...;</code></td>
+        <td>Ignora erros de duplicidade</td>
+      </tr>
+      <tr>
+        <td><code>INSERT ... ON DUPLICATE KEY UPDATE c=v;</code></td>
+        <td>Insere ou atualiza se existir</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🔍 SELECT — Consultas</h2>
+    <pre><code>SELECT coluna1, coluna2
+FROM tabela
+WHERE condição
+GROUP BY coluna
+HAVING condição_do_grupo
+ORDER BY coluna ASC|DESC
+LIMIT 10 OFFSET 0;</code></pre>
+
+    <h3>Ordem de execução das cláusulas</h3>
+    <pre><code>FROM  →  WHERE  →  GROUP BY  →  HAVING  →  SELECT  →  ORDER BY  →  LIMIT</code></pre>
+
+    <table>
+      <tr>
+        <th width="45%">Exemplo</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>SELECT * FROM usuarios;</code></td>
+        <td>Todas as colunas e linhas</td>
+      </tr>
+      <tr>
+        <td><code>SELECT nome, email FROM usuarios;</code></td>
+        <td>Apenas algumas colunas</td>
+      </tr>
+      <tr>
+        <td><code>SELECT * FROM usuarios LIMIT 5;</code></td>
+        <td>Primeiras 5 linhas</td>
+      </tr>
+      <tr>
+        <td><code>SELECT * FROM usuarios LIMIT 5 OFFSET 10;</code></td>
+        <td>Paginação (pula 10, pega 5)</td>
+      </tr>
+      <tr>
+        <td><code>SELECT DISTINCT cidade FROM u;</code></td>
+        <td>Valores únicos</td>
+      </tr>
+      <tr>
+        <td><code>SELECT * FROM u ORDER BY nome;</code></td>
+        <td>Ordena crescente</td>
+      </tr>
+      <tr>
+        <td><code>SELECT * FROM u ORDER BY idade DESC;</code></td>
+        <td>Ordena decrescente</td>
+      </tr>
+      <tr>
+        <td><code>SELECT * FROM u ORDER BY nome ASC, idade DESC;</code></td>
+        <td>Ordenação múltipla</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🎯 WHERE — Filtros</h2>
+    <table>
+      <tr>
+        <th width="45%">Operador / Exemplo</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>= , != , &lt;&gt; , &lt; , &gt; , &lt;= , &gt;=</code></td>
+        <td>Comparações básicas</td>
+      </tr>
+      <tr>
+        <td><code>WHERE idade BETWEEN 18 AND 30</code></td>
+        <td>Intervalo (inclusive)</td>
+      </tr>
+      <tr>
+        <td><code>WHERE nome IN ('Ana','Bia')</code></td>
+        <td>Está na lista</td>
+      </tr>
+      <tr>
+        <td><code>WHERE nome NOT IN ('Ana')</code></td>
+        <td>Não está na lista</td>
+      </tr>
+      <tr>
+        <td><code>WHERE nome LIKE 'A%'</code></td>
+        <td>Começa com "A" (% = qualquer)</td>
+      </tr>
+      <tr>
+        <td><code>WHERE nome LIKE '%silva%'</code></td>
+        <td>Contém "silva"</td>
+      </tr>
+      <tr>
+        <td><code>WHERE nome LIKE '_na'</code></td>
+        <td>1 caractere qualquer + "na"</td>
+      </tr>
+      <tr>
+        <td><code>WHERE email IS NULL</code></td>
+        <td>Campo nulo</td>
+      </tr>
+      <tr>
+        <td><code>WHERE email IS NOT NULL</code></td>
+        <td>Campo não nulo</td>
+      </tr>
+      <tr>
+        <td><code>WHERE ativo = 1 AND idade &gt;= 18</code></td>
+        <td>E lógico</td>
+      </tr>
+      <tr>
+        <td><code>WHERE cidade = 'SP' OR cidade = 'RJ'</code></td>
+        <td>OU lógico</td>
+      </tr>
+      <tr>
+        <td><code>WHERE NOT ativo</code></td>
+        <td>Negação</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>✏️ UPDATE e DELETE</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>UPDATE u SET nome='X' WHERE id=1;</code></td>
+        <td>Atualiza uma linha</td>
+      </tr>
+      <tr>
+        <td><code>UPDATE u SET ativo=0 WHERE idade &lt; 18;</code></td>
+        <td>Atualiza várias linhas</td>
+      </tr>
+      <tr>
+        <td><code>UPDATE u SET a=1, b=2 WHERE id=1;</code></td>
+        <td>Atualiza várias colunas</td>
+      </tr>
+      <tr>
+        <td><code>DELETE FROM u WHERE id=1;</code></td>
+        <td>Apaga uma linha</td>
+      </tr>
+      <tr>
+        <td><code>DELETE FROM u WHERE idade &lt; 18;</code></td>
+        <td>Apaga várias linhas</td>
+      </tr>
+      <tr>
+        <td><code>DELETE FROM u;</code></td>
+        <td>⚠️ Apaga TODAS as linhas</td>
+      </tr>
+    </table>
+
+    <div class="warn">
+      ⚠️ <strong>Cuidado:</strong> Sempre teste o <code>WHERE</code> com um <code>SELECT</code> antes de rodar <code>UPDATE</code> ou <code>DELETE</code>. E use transações (<code>BEGIN</code> / <code>ROLLBACK</code>) quando possível.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>🔗 JOINs — Juntando Tabelas</h2>
+    <table>
+      <tr>
+        <th width="30%">Tipo</th>
+        <th>O que retorna</th>
+      </tr>
+      <tr>
+        <td><code>INNER JOIN</code></td>
+        <td>Apenas linhas que casam nas duas tabelas</td>
+      </tr>
+      <tr>
+        <td><code>LEFT JOIN</code></td>
+        <td>Todas da esquerda + casadas da direita (NULL se não houver)</td>
+      </tr>
+      <tr>
+        <td><code>RIGHT JOIN</code></td>
+        <td>Todas da direita + casadas da esquerda</td>
+      </tr>
+      <tr>
+        <td><code>CROSS JOIN</code></td>
+        <td>Produto cartesiano (todas × todas)</td>
+      </tr>
+      <tr>
+        <td><code>SELF JOIN</code></td>
+        <td>Junta a tabela com ela mesma (alias)</td>
+      </tr>
+    </table>
+
+    <pre><code>SELECT u.nome, p.titulo
+FROM usuarios u
+INNER JOIN pedidos p ON p.usuario_id = u.id
+WHERE u.ativo = 1
+ORDER BY u.nome;</code></pre>
+
+    <div class="tip">
+      💡 <strong>Dica:</strong> sempre use <strong>alias</strong> (<code>u</code>, <code>p</code>) para deixar a query mais curta e legível.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>📊 Funções de Agregação</h2>
+    <table>
+      <tr>
+        <th width="45%">Função</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>COUNT(*)</code></td>
+        <td>Conta linhas</td>
+      </tr>
+      <tr>
+        <td><code>COUNT(DISTINCT col)</code></td>
+        <td>Conta valores únicos</td>
+      </tr>
+      <tr>
+        <td><code>SUM(col)</code></td>
+        <td>Soma valores</td>
+      </tr>
+      <tr>
+        <td><code>AVG(col)</code></td>
+        <td>Média</td>
+      </tr>
+      <tr>
+        <td><code>MIN(col)</code> / <code>MAX(col)</code></td>
+        <td>Mínimo / máximo</td>
+      </tr>
+      <tr>
+        <td><code>GROUP_CONCAT(col)</code></td>
+        <td>Junta valores em uma string</td>
+      </tr>
+    </table>
+
+    <pre><code>SELECT cidade, COUNT(*) AS total, AVG(idade) AS media
+FROM usuarios
+GROUP BY cidade
+HAVING total &gt; 5
+ORDER BY total DESC;</code></pre>
+
+    <div class="tip">
+      💡 <strong>WHERE vs HAVING:</strong> <code>WHERE</code> filtra <em>antes</em> do agrupamento; <code>HAVING</code> filtra <em>depois</em> (pode usar funções de agregação).
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>🔤 Funções de String</h2>
+    <table>
+      <tr>
+        <th width="45%">Função</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>CONCAT(a, b)</code></td>
+        <td>Junta strings</td>
+      </tr>
+      <tr>
+        <td><code>CONCAT_WS('-', a, b)</code></td>
+        <td>Junta com separador</td>
+      </tr>
+      <tr>
+        <td><code>UPPER(s)</code> / <code>LOWER(s)</code></td>
+        <td>Maiúsculas / minúsculas</td>
+      </tr>
+      <tr>
+        <td><code>LENGTH(s)</code></td>
+        <td>Tamanho em bytes</td>
+      </tr>
+      <tr>
+        <td><code>CHAR_LENGTH(s)</code></td>
+        <td>Tamanho em caracteres</td>
+      </tr>
+      <tr>
+        <td><code>TRIM(s)</code> / <code>LTRIM</code> / <code>RTRIM</code></td>
+        <td>Remove espaços</td>
+      </tr>
+      <tr>
+        <td><code>SUBSTRING(s, ini, len)</code></td>
+        <td>Extrai parte da string</td>
+      </tr>
+      <tr>
+        <td><code>REPLACE(s, de, para)</code></td>
+        <td>Substitui trechos</td>
+      </tr>
+      <tr>
+        <td><code>LEFT(s, n)</code> / <code>RIGHT(s, n)</code></td>
+        <td>Primeiros / últimos n caracteres</td>
+      </tr>
+      <tr>
+        <td><code>LOCATE('x', s)</code></td>
+        <td>Posição da substring</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>📅 Funções de Data</h2>
+    <table>
+      <tr>
+        <th width="45%">Função</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>NOW()</code></td>
+        <td>Data e hora atual</td>
+      </tr>
+      <tr>
+        <td><code>CURDATE()</code> / <code>CURTIME()</code></td>
+        <td>Data / hora atual</td>
+      </tr>
+      <tr>
+        <td><code>DATE_ADD(d, INTERVAL 7 DAY)</code></td>
+        <td>Soma intervalo</td>
+      </tr>
+      <tr>
+        <td><code>DATE_SUB(d, INTERVAL 1 MONTH)</code></td>
+        <td>Subtrai intervalo</td>
+      </tr>
+      <tr>
+        <td><code>DATEDIFF(d1, d2)</code></td>
+        <td>Diferença em dias</td>
+      </tr>
+      <tr>
+        <td><code>YEAR(d)</code> / <code>MONTH(d)</code> / <code>DAY(d)</code></td>
+        <td>Extrai partes</td>
+      </tr>
+      <tr>
+        <td><code>DATE_FORMAT(d, '%d/%m/%Y')</code></td>
+        <td>Formata data</td>
+      </tr>
+      <tr>
+        <td><code>UNIX_TIMESTAMP(d)</code></td>
+        <td>Converte para timestamp</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🔀 Condicionais e NULL</h2>
+    <table>
+      <tr>
+        <th width="45%">Função</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>IF(cond, a, b)</code></td>
+        <td>Retorna a ou b</td>
+      </tr>
+      <tr>
+        <td><code>IFNULL(x, alt)</code></td>
+        <td>Se x for NULL, retorna alt</td>
+      </tr>
+      <tr>
+        <td><code>NULLIF(a, b)</code></td>
+        <td>NULL se a = b</td>
+      </tr>
+      <tr>
+        <td><code>COALESCE(a, b, c)</code></td>
+        <td>Primeiro valor não nulo</td>
+      </tr>
+      <tr>
+        <td><code>CASE WHEN ... THEN ... ELSE ... END</code></td>
+        <td>Condicional tipo "switch"</td>
+      </tr>
+    </table>
+
+    <pre><code>SELECT nome,
+       CASE
+         WHEN idade &lt; 18 THEN 'Menor'
+         WHEN idade &lt; 60 THEN 'Adulto'
+         ELSE 'Idoso'
+       END AS faixa
+FROM usuarios;</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🔑 Chaves e Índices</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>PRIMARY KEY (id)</code></td>
+        <td>Chave primária (única, não nula)</td>
+      </tr>
+      <tr>
+        <td><code>FOREIGN KEY (u_id) REFERENCES u(id)</code></td>
+        <td>Chave estrangeira</td>
+      </tr>
+      <tr>
+        <td><code>UNIQUE (email)</code></td>
+        <td>Valor único</td>
+      </tr>
+      <tr>
+        <td><code>INDEX idx_nome (nome)</code></td>
+        <td>Cria índice</td>
+      </tr>
+      <tr>
+        <td><code>CREATE INDEX idx ON t (col);</code></td>
+        <td>Cria índice depois</td>
+      </tr>
+      <tr>
+        <td><code>DROP INDEX idx ON t;</code></td>
+        <td>Remove índice</td>
+      </tr>
+      <tr>
+        <td><code>SHOW INDEX FROM t;</code></td>
+        <td>Lista índices</td>
+      </tr>
+      <tr>
+        <td><code>EXPLAIN SELECT ...;</code></td>
+        <td>Mostra plano de execução</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>✏️ ALTER TABLE</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>ALTER TABLE t ADD col INT;</code></td>
+        <td>Adiciona coluna</td>
+      </tr>
+      <tr>
+        <td><code>ALTER TABLE t DROP COLUMN col;</code></td>
+        <td>Remove coluna</td>
+      </tr>
+      <tr>
+        <td><code>ALTER TABLE t MODIFY col VARCHAR(200);</code></td>
+        <td>Altera tipo</td>
+      </tr>
+      <tr>
+        <td><code>ALTER TABLE t CHANGE old new INT;</code></td>
+        <td>Renomeia + altera tipo</td>
+      </tr>
+      <tr>
+        <td><code>ALTER TABLE t RENAME TO novo;</code></td>
+        <td>Renomeia tabela</td>
+      </tr>
+      <tr>
+        <td><code>ALTER TABLE t ADD PRIMARY KEY (id);</code></td>
+        <td>Adiciona PK</td>
+      </tr>
+      <tr>
+        <td><code>ALTER TABLE t DROP PRIMARY KEY;</code></td>
+        <td>Remove PK</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🔄 Transações</h2>
+    <pre><code>START TRANSACTION;
+
+UPDATE contas SET saldo = saldo - 100 WHERE id = 1;
+UPDATE contas SET saldo = saldo + 100 WHERE id = 2;
+
+-- Se tudo ok:
+COMMIT;
+
+-- Se algo deu errado:
+ROLLBACK;</code></pre>
+
+    <div class="tip">
+      💡 <strong>ACID:</strong> Atomicidade, Consistência, Isolamento, Durabilidade. Use transações quando múltiplas operações precisam ser <em>tudo ou nada</em>.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>👁️ Views</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>CREATE VIEW v AS SELECT ...;</code></td>
+        <td>Cria uma view</td>
+      </tr>
+      <tr>
+        <td><code>SELECT * FROM v;</code></td>
+        <td>Consulta a view</td>
+      </tr>
+      <tr>
+        <td><code>SHOW CREATE VIEW v;</code></td>
+        <td>Mostra o SQL da view</td>
+      </tr>
+      <tr>
+        <td><code>DROP VIEW v;</code></td>
+        <td>Remove view</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>👥 Usuários e Permissões</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>CREATE USER 'u'@'localhost' IDENTIFIED BY 'senha';</code></td>
+        <td>Cria usuário</td>
+      </tr>
+      <tr>
+        <td><code>GRANT ALL ON db.* TO 'u'@'localhost';</code></td>
+        <td>Concede todas as permissões</td>
+      </tr>
+      <tr>
+        <td><code>GRANT SELECT, INSERT ON db.* TO 'u'@'localhost';</code></td>
+        <td>Permissões específicas</td>
+      </tr>
+      <tr>
+        <td><code>REVOKE INSERT ON db.* FROM 'u'@'localhost';</code></td>
+        <td>Remove permissão</td>
+      </tr>
+      <tr>
+        <td><code>SHOW GRANTS FOR 'u'@'localhost';</code></td>
+        <td>Mostra permissões</td>
+      </tr>
+      <tr>
+        <td><code>DROP USER 'u'@'localhost';</code></td>
+        <td>Remove usuário</td>
+      </tr>
+      <tr>
+        <td><code>FLUSH PRIVILEGES;</code></td>
+        <td>Recarrega permissões</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>⚡ Boas Práticas e Performance</h2>
+    <table>
+      <tr>
+        <th width="45%">Prática</th>
+        <th>Por quê</th>
+      </tr>
+      <tr>
+        <td>Use <code>EXPLAIN</code> antes de otimizar</td>
+        <td>Mostra plano de execução real</td>
+      </tr>
+      <tr>
+        <td>Crie índices em colunas de <code>WHERE</code> / <code>JOIN</code></td>
+        <td>Acelera consultas drasticamente</td>
+      </tr>
+      <tr>
+        <td>Evite <code>SELECT *</code> em produção</td>
+        <td>Tráfego desnecessário</td>
+      </tr>
+      <tr>
+        <td>Prefira <code>EXISTS</code> a <code>IN</code> em subqueries grandes</td>
+        <td>Melhor performance</td>
+      </tr>
+      <tr>
+        <td>Use <code>LIMIT</code> em testes</td>
+        <td>Evita travar com milhares de linhas</td>
+      </tr>
+      <tr>
+        <td>Nunca armazene senhas em texto puro</td>
+        <td>Use hash (bcrypt, argon2)</td>
+      </tr>
+      <tr>
+        <td>Backup antes de rodar scripts grandes</td>
+        <td><code>mysqldump</code> salva vidas</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🚑 Situações Comuns</h2>
+
+    <h3>Encontrar duplicatas</h3>
+    <pre><code>SELECT email, COUNT(*) AS qtd
+FROM usuarios
+GROUP BY email
+HAVING qtd &gt; 1;</code></pre>
+
+    <h3>Segunda maior idade</h3>
+    <pre><code>SELECT MAX(idade) FROM usuarios
+WHERE idade &lt; (SELECT MAX(idade) FROM usuarios);</code></pre>
+
+    <h3>Top N por grupo</h3>
+    <pre><code>SELECT *
+FROM (
+  SELECT *, ROW_NUMBER() OVER (PARTITION BY cidade ORDER BY idade DESC) AS rn
+  FROM usuarios
+) t
+WHERE rn &lt;= 3;</code></pre>
+
+    <h3>Pagar / restaurar um banco</h3>
+    <pre><code>mysqldump -u root -p meu_banco &gt; backup.sql
+mysql -u root -p meu_banco &lt; backup.sql</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🧭 Fluxo de Trabalho Típico</h2>
+    <pre><code>-- 1. Criar banco e usar
+CREATE DATABASE loja CHARACTER SET utf8mb4;
+USE loja;
+
+-- 2. Criar tabela
+CREATE TABLE produtos (
+  id     INT AUTO_INCREMENT PRIMARY KEY,
+  nome   VARCHAR(100) NOT NULL,
+  preco  DECIMAL(10,2) NOT NULL
+);
+
+-- 3. Inserir dados
+INSERT INTO produtos (nome, preco) VALUES
+  ('Teclado', 150.00),
+  ('Mouse',   80.00);
+
+-- 4. Consultar
+SELECT * FROM produtos WHERE preco &gt; 100 ORDER BY preco DESC;</code></pre>
+
+    <div class="footer">
+      Referência Completa de MySQL / SQL • Página para impressão
+    </div>
+
+    <script>
+      (function () {
+        const btn = document.getElementById("themeToggle");
+        const html = document.documentElement;
+
+        function applyTheme(theme) {
+          if (theme === "dark") {
+            html.classList.add("dark");
+            btn.textContent = "☀️";
+            btn.title = "Mudar para modo claro";
+          } else {
+            html.classList.remove("dark");
+            btn.textContent = "🌙";
+            btn.title = "Mudar para modo escuro";
+          }
+        }
+
+        const saved = localStorage.getItem("theme") || "light";
+        applyTheme(saved);
+
+        btn.addEventListener("click", function () {
+          const current = html.classList.contains("dark") ? "dark" : "light";
+          const next = current === "dark" ? "light" : "dark";
+          localStorage.setItem("theme", next);
+          applyTheme(next);
+        });
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Markdown - Referência Rápida</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text: #222222;
+        --text-soft: #666666;
+        --text-muted: #888888;
+        --border: #cccccc;
+        --border-soft: #dddddd;
+        --h2-bg: #333333;
+        --h2-text: #ffffff;
+        --th-bg: #f0f0f0;
+        --code-bg: #f5f5f5;
+        --code-text: #c7254e;
+        --code-cell-text: #333333;
+        --pre-bg: #2d2d2d;
+        --pre-text: #f8f8f2;
+        --tip-bg: #e8f5e9;
+        --tip-border: #2e7d32;
+        --warn-bg: #fff3e0;
+        --warn-border: #e65100;
+        --toggle-bg: #333333;
+        --toggle-text: #ffffff;
+      }
+
+      html.dark {
+        --bg: #1a1a1a;
+        --text: #e6e6e6;
+        --text-soft: #b0b0b0;
+        --text-muted: #888888;
+        --border: #3a3a3a;
+        --border-soft: #2e2e2e;
+        --h2-bg: #0d0d0d;
+        --h2-text: #ffffff;
+        --th-bg: #2a2a2a;
+        --code-bg: #2a2a2a;
+        --code-text: #ff8fa3;
+        --code-cell-text: #e6e6e6;
+        --pre-bg: #0d0d0d;
+        --pre-text: #e6e6e6;
+        --tip-bg: #1b3a1e;
+        --tip-border: #4caf50;
+        --warn-bg: #3a2410;
+        --warn-border: #ff9800;
+        --toggle-bg: #f0f0f0;
+        --toggle-text: #1a1a1a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        background: var(--bg);
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        max-width: 900px;
+        margin: 20px auto;
+        padding: 20px;
+        color: var(--text);
+        line-height: 1.5;
+      }
+
+      h1 {
+        text-align: center;
+        border-bottom: 3px solid var(--text);
+        padding-bottom: 10px;
+        margin-bottom: 5px;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: var(--text-soft);
+        margin-bottom: 25px;
+        font-size: 0.9em;
+      }
+
+      h2 {
+        background: var(--h2-bg);
+        color: var(--h2-text);
+        padding: 8px 12px;
+        margin-top: 25px;
+        border-radius: 4px;
+        font-size: 1.1em;
+      }
+
+      h3 {
+        color: var(--text);
+        font-size: 1em;
+        margin-top: 18px;
+        margin-bottom: 6px;
+        border-left: 4px solid var(--text-soft);
+        padding-left: 8px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        page-break-inside: avoid;
+      }
+
+      th,
+      td {
+        border: 1px solid var(--border);
+        padding: 8px 10px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: var(--th-bg);
+        font-weight: bold;
+      }
+
+      code {
+        background: var(--code-bg);
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 0.92em;
+        color: var(--code-text);
+      }
+
+      td:first-child code {
+        background: transparent;
+        color: var(--code-cell-text);
+        font-weight: bold;
+        padding: 0;
+      }
+
+      pre {
+        background: var(--pre-bg);
+        color: var(--pre-text);
+        padding: 10px 12px;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 0.85em;
+        line-height: 1.4;
+        margin-top: 8px;
+        page-break-inside: avoid;
+      }
+
+      pre code {
+        background: transparent;
+        color: inherit;
+        padding: 0;
+        font-weight: normal;
+      }
+
+      a {
+        color: #3b82f6;
+      }
+
+      .tip {
+        background: var(--tip-bg);
+        border-left: 4px solid var(--tip-border);
+        padding: 8px 12px;
+        margin: 10px 0;
+        border-radius: 0 4px 4px 0;
+        font-size: 0.9em;
+      }
+
+      .warn {
+        background: var(--warn-bg);
+        border-left: 4px solid var(--warn-border);
+        padding: 8px 12px;
+        margin: 10px 0;
+        border-radius: 0 4px 4px 0;
+        font-size: 0.9em;
+      }
+
+      .footer {
+        margin-top: 30px;
+        text-align: center;
+        font-size: 0.8em;
+        color: var(--text-muted);
+        border-top: 1px solid var(--border-soft);
+        padding-top: 10px;
+      }
+
+      /* Botão de tema */
+      .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--toggle-bg);
+        color: var(--toggle-text);
+        border: none;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        font-size: 1.3em;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        transition: transform 0.2s ease, background 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .theme-toggle:hover {
+        transform: scale(1.1);
+      }
+
+      .theme-toggle:active {
+        transform: scale(0.95);
+      }
+
+      /* Numeração de páginas (impressão) */
+      @page {
+        margin: 15mm 12mm 18mm 12mm;
+
+        @bottom-center {
+          content: "Página " counter(page) " de " counter(pages);
+          font-family: "Segoe UI", Arial, sans-serif;
+          font-size: 9pt;
+          color: #666;
+        }
+      }
+
+      @media print {
+        body {
+          margin: 0;
+          padding: 15px;
+          font-size: 11pt;
+          background: #ffffff !important;
+          color: #222222 !important;
+        }
+
+        .theme-toggle,
+        .no-print {
+          display: none !important;
+        }
+
+        h2 {
+          background: #333 !important;
+          color: #fff !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        th {
+          background: #f0f0f0 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        pre {
+          background: #2d2d2d !important;
+          color: #f8f8f2 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        .tip,
+        .warn {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        /* Força tema claro mesmo se estiver em dark */
+        html.dark {
+          --bg: #ffffff;
+          --text: #222222;
+          --border: #cccccc;
+          --th-bg: #f0f0f0;
+          --code-bg: #f5f5f5;
+          --code-text: #c7254e;
+          --code-cell-text: #333333;
+          --pre-bg: #2d2d2d;
+          --pre-text: #f8f8f2;
+          --h2-bg: #333333;
+          --h2-text: #ffffff;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      class="theme-toggle no-print"
+      id="themeToggle"
+      title="Alternar tema claro/escuro"
+      aria-label="Alternar tema"
+    >
+      🌙
+    </button>
+
+    <h1>📝 Markdown — Referência Rápida</h1>
+    <p class="subtitle">Comandos básicos de formatação</p>
+
+    <h2>🔤 Ênfase e Texto</h2>
+    <table>
+      <tr>
+        <th width="35%">O que você escreve</th>
+        <th>Como aparece</th>
+      </tr>
+      <tr>
+        <td><code>*itálico*</code> ou <code>_itálico_</code></td>
+        <td><em>itálico</em></td>
+      </tr>
+      <tr>
+        <td><code>**negrito**</code> ou <code>__negrito__</code></td>
+        <td><strong>negrito</strong></td>
+      </tr>
+      <tr>
+        <td><code>***negrito e itálico***</code></td>
+        <td><strong><em>negrito e itálico</em></strong></td>
+      </tr>
+      <tr>
+        <td><code>~~tachado~~</code></td>
+        <td><s>tachado</s></td>
+      </tr>
+      <tr>
+        <td><code>`código inline`</code></td>
+        <td><code>código inline</code></td>
+      </tr>
+    </table>
+
+    <h2>📌 Títulos</h2>
+    <table>
+      <tr>
+        <th width="35%">O que você escreve</th>
+        <th>Resultado</th>
+      </tr>
+      <tr>
+        <td><code># Título 1</code></td>
+        <td>Maior título (H1)</td>
+      </tr>
+      <tr>
+        <td><code>## Título 2</code></td>
+        <td>Subtítulo (H2)</td>
+      </tr>
+      <tr>
+        <td><code>### Título 3</code></td>
+        <td>Subtítulo (H3)</td>
+      </tr>
+      <tr>
+        <td><code>#### até ######</code></td>
+        <td>Níveis H4 a H6</td>
+      </tr>
+    </table>
+
+    <h2>📋 Listas</h2>
+    <table>
+      <tr>
+        <th width="35%">O que você escreve</th>
+        <th>Resultado</th>
+      </tr>
+      <tr>
+        <td><code>- Item</code><br /><code>- Item</code></td>
+        <td>Lista com marcadores</td>
+      </tr>
+      <tr>
+        <td><code>* Item</code> ou <code>+ Item</code></td>
+        <td>Também lista com marcadores</td>
+      </tr>
+      <tr>
+        <td><code>1. Item</code><br /><code>2. Item</code></td>
+        <td>Lista numerada</td>
+      </tr>
+      <tr>
+        <td><code> - Subitem</code></td>
+        <td>Subitem (indentado com 2 espaços)</td>
+      </tr>
+      <tr>
+        <td><code>- [ ] Tarefa</code></td>
+        <td>☐ Tarefa (não concluída)</td>
+      </tr>
+      <tr>
+        <td><code>- [x] Tarefa</code></td>
+        <td>☑ Tarefa (concluída)</td>
+      </tr>
+    </table>
+
+    <h2>🔗 Links e Imagens</h2>
+    <table>
+      <tr>
+        <th width="45%">O que você escreve</th>
+        <th>Resultado</th>
+      </tr>
+      <tr>
+        <td><code>[Texto do link](https://site.com)</code></td>
+        <td><a href="#">Texto do link</a></td>
+      </tr>
+      <tr>
+        <td><code>[Texto](url "Título")</code></td>
+        <td>Link com tooltip</td>
+      </tr>
+      <tr>
+        <td><code>![Alt](imagem.jpg)</code></td>
+        <td>Imagem</td>
+      </tr>
+      <tr>
+        <td><code>&lt;https://site.com&gt;</code></td>
+        <td>URL automática</td>
+      </tr>
+    </table>
+
+    <h2>💻 Blocos de Código</h2>
+    <table>
+      <tr>
+        <th width="45%">O que você escreve</th>
+        <th>Resultado</th>
+      </tr>
+      <tr>
+        <td><code>```</code> (3 crases)</td>
+        <td>Bloco de código</td>
+      </tr>
+      <tr>
+        <td><code>```python</code></td>
+        <td>Bloco com destaque de sintaxe</td>
+      </tr>
+      <tr>
+        <td>Indentar 4 espaços</td>
+        <td>Também cria bloco de código</td>
+      </tr>
+    </table>
+
+    <h2>📊 Tabelas</h2>
+    <table>
+      <tr>
+        <th width="45%">O que você escreve</th>
+        <th>Resultado</th>
+      </tr>
+      <tr>
+        <td>
+          <code>| Col1 | Col2 |</code><br />
+          <code>|------|------|</code><br />
+          <code>| A | B |</code>
+        </td>
+        <td>Tabela com 2 colunas e 1 linha</td>
+      </tr>
+      <tr>
+        <td><code>|:---|</code></td>
+        <td>Alinhado à esquerda</td>
+      </tr>
+      <tr>
+        <td><code>|:---:|</code></td>
+        <td>Centralizado</td>
+      </tr>
+      <tr>
+        <td><code>|---:|</code></td>
+        <td>Alinhado à direita</td>
+      </tr>
+    </table>
+
+    <h2>📎 Citações e Divisores</h2>
+    <table>
+      <tr>
+        <th width="45%">O que você escreve</th>
+        <th>Resultado</th>
+      </tr>
+      <tr>
+        <td><code>&gt; Texto citado</code></td>
+        <td>Bloco de citação</td>
+      </tr>
+      <tr>
+        <td><code>&gt;&gt; Citação aninhada</code></td>
+        <td>Citação dentro de citação</td>
+      </tr>
+      <tr>
+        <td><code>---</code> ou <code>***</code></td>
+        <td>Linha divisória horizontal</td>
+      </tr>
+      <tr>
+        <td><code>&lt;br&gt;</code></td>
+        <td>Quebra de linha (HTML)</td>
+      </tr>
+    </table>
+
+    <h2>⌨️ Escapes (Caracteres Especiais)</h2>
+    <table>
+      <tr>
+        <th width="45%">O que você escreve</th>
+        <th>Resultado</th>
+      </tr>
+      <tr>
+        <td><code>\*texto\*</code></td>
+        <td>*texto* (literal, sem formatação)</td>
+      </tr>
+      <tr>
+        <td><code>\_texto\_</code></td>
+        <td>_texto_</td>
+      </tr>
+      <tr>
+        <td><code>\# título</code></td>
+        <td># título (sem virar título)</td>
+      </tr>
+      <tr>
+        <td><code>\`código\`</code></td>
+        <td>`código` (literal)</td>
+      </tr>
+    </table>
+
+    <div class="footer">Referência Rápida de Markdown • Página para impressão</div>
+
+    <script>
+      (function () {
+        const btn = document.getElementById("themeToggle");
+        const html = document.documentElement;
+
+        function applyTheme(theme) {
+          if (theme === "dark") {
+            html.classList.add("dark");
+            btn.textContent = "☀️";
+            btn.title = "Mudar para modo claro";
+          } else {
+            html.classList.remove("dark");
+            btn.textContent = "🌙";
+            btn.title = "Mudar para modo escuro";
+          }
+        }
+
+        const saved = localStorage.getItem("theme") || "light";
+        applyTheme(saved);
+
+        btn.addEventListener("click", function () {
+          const current = html.classList.contains("dark") ? "dark" : "light";
+          const next = current === "dark" ? "light" : "dark";
+          localStorage.setItem("theme", next);
+          applyTheme(next);
+        });
+      })();
+    </script>
+  </body>
+</html>

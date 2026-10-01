@@ -1,0 +1,949 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Python - Referência Completa</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text: #222222;
+        --text-soft: #666666;
+        --text-muted: #888888;
+        --border: #cccccc;
+        --border-soft: #dddddd;
+        --h2-bg: #333333;
+        --h2-text: #ffffff;
+        --th-bg: #f0f0f0;
+        --code-bg: #f5f5f5;
+        --code-text: #c7254e;
+        --code-cell-text: #333333;
+        --pre-bg: #2d2d2d;
+        --pre-text: #f8f8f2;
+        --tip-bg: #e8f5e9;
+        --tip-border: #2e7d32;
+        --warn-bg: #fff3e0;
+        --warn-border: #e65100;
+        --toggle-bg: #333333;
+        --toggle-text: #ffffff;
+        --link: #3b82f6;
+      }
+      html.dark {
+        --bg: #1a1a1a;
+        --text: #e6e6e6;
+        --text-soft: #b0b0b0;
+        --text-muted: #888888;
+        --border: #3a3a3a;
+        --border-soft: #2e2e2e;
+        --h2-bg: #0d0d0d;
+        --h2-text: #ffffff;
+        --th-bg: #2a2a2a;
+        --code-bg: #2a2a2a;
+        --code-text: #ff8fa3;
+        --code-cell-text: #e6e6e6;
+        --pre-bg: #0d0d0d;
+        --pre-text: #e6e6e6;
+        --tip-bg: #1b3a1e;
+        --tip-border: #4caf50;
+        --warn-bg: #3a2410;
+        --warn-border: #ff9800;
+        --toggle-bg: #f0f0f0;
+        --toggle-text: #1a1a1a;
+        --link: #60a5fa;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        background: var(--bg);
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        max-width: 950px;
+        margin: 20px auto;
+        padding: 20px;
+        color: var(--text);
+        line-height: 1.5;
+      }
+      h1 {
+        text-align: center;
+        border-bottom: 3px solid var(--text);
+        padding-bottom: 10px;
+        margin-bottom: 5px;
+      }
+      .subtitle {
+        text-align: center;
+        color: var(--text-soft);
+        margin-bottom: 25px;
+        font-size: 0.9em;
+      }
+      h2 {
+        background: var(--h2-bg);
+        color: var(--h2-text);
+        padding: 8px 12px;
+        margin-top: 25px;
+        border-radius: 4px;
+        font-size: 1.1em;
+      }
+      h3 {
+        color: var(--text);
+        font-size: 1em;
+        margin-top: 18px;
+        margin-bottom: 6px;
+        border-left: 4px solid var(--text-soft);
+        padding-left: 8px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        page-break-inside: avoid;
+      }
+      th,
+      td {
+        border: 1px solid var(--border);
+        padding: 8px 10px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: var(--th-bg);
+        font-weight: bold;
+      }
+      code {
+        background: var(--code-bg);
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 0.92em;
+        color: var(--code-text);
+      }
+      td:first-child code {
+        background: transparent;
+        color: var(--code-cell-text);
+        font-weight: bold;
+        padding: 0;
+      }
+      pre {
+        background: var(--pre-bg);
+        color: var(--pre-text);
+        padding: 10px 12px;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 0.85em;
+        line-height: 1.4;
+        margin-top: 8px;
+        page-break-inside: avoid;
+      }
+      pre code {
+        background: transparent;
+        color: inherit;
+        padding: 0;
+        font-weight: normal;
+      }
+      a {
+        color: var(--link);
+      }
+      .tip {
+        background: var(--tip-bg);
+        border-left: 4px solid var(--tip-border);
+        padding: 8px 12px;
+        margin: 10px 0;
+        border-radius: 0 4px 4px 0;
+        font-size: 0.9em;
+      }
+      .warn {
+        background: var(--warn-bg);
+        border-left: 4px solid var(--warn-border);
+        padding: 8px 12px;
+        margin: 10px 0;
+        border-radius: 0 4px 4px 0;
+        font-size: 0.9em;
+      }
+      .footer {
+        margin-top: 30px;
+        text-align: center;
+        font-size: 0.8em;
+        color: var(--text-muted);
+        border-top: 1px solid var(--border-soft);
+        padding-top: 10px;
+      }
+      .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--toggle-bg);
+        color: var(--toggle-text);
+        border: none;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        font-size: 1.3em;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        transition: transform 0.2s ease, background 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .theme-toggle:hover {
+        transform: scale(1.1);
+      }
+      .theme-toggle:active {
+        transform: scale(0.95);
+      }
+      @page {
+        margin: 15mm 12mm 18mm 12mm;
+        @bottom-center {
+          content: "Página " counter(page) " de " counter(pages);
+          font-family: "Segoe UI", Arial, sans-serif;
+          font-size: 9pt;
+          color: #666;
+        }
+      }
+      @media print {
+        body {
+          margin: 0;
+          padding: 15px;
+          font-size: 10.5pt;
+          background: #ffffff !important;
+          color: #222222 !important;
+        }
+        .theme-toggle,
+        .no-print {
+          display: none !important;
+        }
+        h2 {
+          background: #333 !important;
+          color: #fff !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        th {
+          background: #f0f0f0 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        pre {
+          background: #2d2d2d !important;
+          color: #f8f8f2 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .tip,
+        .warn {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        html.dark {
+          --bg: #ffffff;
+          --text: #222222;
+          --border: #cccccc;
+          --th-bg: #f0f0f0;
+          --code-bg: #f5f5f5;
+          --code-text: #c7254e;
+          --code-cell-text: #333333;
+          --pre-bg: #2d2d2d;
+          --pre-text: #f8f8f2;
+          --h2-bg: #333333;
+          --h2-text: #ffffff;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button
+      class="theme-toggle no-print"
+      id="themeToggle"
+      title="Alternar tema claro/escuro"
+      aria-label="Alternar tema"
+    >
+      🌙
+    </button>
+
+    <h1>🐍 Python — Referência Completa</h1>
+    <p class="subtitle">Sintaxe, estruturas de dados, POO e boas práticas</p>
+
+    <!-- ============================================================ -->
+    <h2>🚀 Começando</h2>
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>python arquivo.py</code></td>
+        <td>Executa um script</td>
+      </tr>
+      <tr>
+        <td><code>python -i arquivo.py</code></td>
+        <td>Executa e entra no REPL</td>
+      </tr>
+      <tr>
+        <td><code>python -m venv .venv</code></td>
+        <td>Cria ambiente virtual</td>
+      </tr>
+      <tr>
+        <td><code>source .venv/bin/activate</code></td>
+        <td>Ativa venv (Linux/Mac)</td>
+      </tr>
+      <tr>
+        <td><code>.venv\Scripts\activate</code></td>
+        <td>Ativa venv (Windows)</td>
+      </tr>
+      <tr>
+        <td><code>pip install pacote</code></td>
+        <td>Instala pacote</td>
+      </tr>
+      <tr>
+        <td><code>pip freeze &gt; requirements.txt</code></td>
+        <td>Salva dependências</td>
+      </tr>
+      <tr>
+        <td><code>pip install -r requirements.txt</code></td>
+        <td>Instala dependências do projeto</td>
+      </tr>
+    </table>
+
+    <div class="tip">
+      💡 <strong>PEP 8:</strong> guia de estilo oficial. Use 4 espaços de indentação, <code>snake_case</code> para variáveis/funções e <code>PascalCase</code> para classes.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>📦 Variáveis e Tipos</h2>
+    <table>
+      <tr>
+        <th width="35%">Tipo</th>
+        <th>Exemplo</th>
+      </tr>
+      <tr>
+        <td><code>int</code></td>
+        <td><code>x = 10</code></td>
+      </tr>
+      <tr>
+        <td><code>float</code></td>
+        <td><code>pi = 3.14</code></td>
+      </tr>
+      <tr>
+        <td><code>str</code></td>
+        <td><code>nome = "Ana"</code></td>
+      </tr>
+      <tr>
+        <td><code>bool</code></td>
+        <td><code>ativo = True</code></td>
+      </tr>
+      <tr>
+        <td><code>NoneType</code></td>
+        <td><code>x = None</code></td>
+      </tr>
+      <tr>
+        <td><code>list</code></td>
+        <td><code>[1, 2, 3]</code></td>
+      </tr>
+      <tr>
+        <td><code>tuple</code></td>
+        <td><code>(1, 2, 3)</code> — imutável</td>
+      </tr>
+      <tr>
+        <td><code>dict</code></td>
+        <td><code>{"a": 1, "b": 2}</code></td>
+      </tr>
+      <tr>
+        <td><code>set</code></td>
+        <td><code>{1, 2, 3}</code> — sem duplicatas</td>
+      </tr>
+    </table>
+
+    <h3>Type hints (opcional, mas recomendado)</h3>
+    <pre><code>nome: str = "Ana"
+idade: int = 30
+
+def soma(a: int, b: int) -&gt; int:
+    return a + b</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🔀 Controle de Fluxo</h2>
+
+    <h3>if / elif / else</h3>
+    <pre><code>if x &gt; 10:
+    print("maior")
+elif x == 10:
+    print("igual")
+else:
+    print("menor")</code></pre>
+
+    <h3>for</h3>
+    <pre><code>for i in range(5):          # 0..4
+    print(i)
+
+for item in [1, 2, 3]:
+    print(item)
+
+for i, v in enumerate(["a", "b"]):
+    print(i, v)
+
+for k, v in dicionario.items():
+    print(k, v)</code></pre>
+
+    <h3>while</h3>
+    <pre><code>while x &lt; 10:
+    x += 1</code></pre>
+
+    <h3>Compreensões (comprehensions)</h3>
+    <pre><code>quadrados = [x*x for x in range(5)]
+pares = [x for x in range(10) if x % 2 == 0]
+mapa = {k: v*2 for k, v in d.items()}</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🧩 Funções</h2>
+    <pre><code>def soma(a, b=0, *args, **kwargs):
+    """Soma valores."""
+    return a + b + sum(args)
+
+# Chamadas
+soma(1, 2)
+soma(1, 2, 3, 4)
+soma(1, b=5)
+
+# Lambda
+dobro = lambda x: x * 2
+
+# Múltiplos retornos (tuple)
+def divmod_(a, b):
+    return a // b, a % b
+
+q, r = divmod_(10, 3)</code></pre>
+
+    <div class="tip">
+      💡 <strong>*args</strong> = lista de argumentos posicionais. <strong>**kwargs</strong> = dicionário de nomeados.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>📋 Listas, Tuplas e Sets</h2>
+    <table>
+      <tr>
+        <th width="45%">Operação</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>lista.append(x)</code></td>
+        <td>Adiciona no fim</td>
+      </tr>
+      <tr>
+        <td><code>lista.insert(0, x)</code></td>
+        <td>Insere na posição</td>
+      </tr>
+      <tr>
+        <td><code>lista.pop()</code></td>
+        <td>Remove último (ou índice)</td>
+      </tr>
+      <tr>
+        <td><code>lista.remove(x)</code></td>
+        <td>Remove primeiro valor x</td>
+      </tr>
+      <tr>
+        <td><code>lista.sort()</code></td>
+        <td>Ordena no lugar</td>
+      </tr>
+      <tr>
+        <td><code>sorted(lista)</code></td>
+        <td>Retorna nova lista ordenada</td>
+      </tr>
+      <tr>
+        <td><code>len(lista)</code></td>
+        <td>Tamanho</td>
+      </tr>
+      <tr>
+        <td><code>x in lista</code></td>
+        <td>Pertencimento</td>
+      </tr>
+      <tr>
+        <td><code>set([1,2,2,3])</code></td>
+        <td>Cria set sem duplicatas</td>
+      </tr>
+      <tr>
+        <td><code>a | b, a &amp; b, a - b</code></td>
+        <td>União, interseção, diferença</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>📚 Dicionários</h2>
+    <pre><code>d = {"nome": "Ana", "idade": 30}
+
+d["email"] = "a@x.com"       # adicionar/atualizar
+d.get("tel", "não tem")      # com valor padrão
+d.keys() | d.values() | d.items()
+del d["idade"]               # remover
+d.pop("nome")                # remove e retorna
+"nome" in d                  # pertence às chaves
+
+# Merge (Python 3.9+)
+d3 = d1 | d2
+
+# Iterar
+for k, v in d.items():
+    print(k, v)</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🔤 Strings</h2>
+    <table>
+      <tr>
+        <th width="45%">Operação</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>s.upper()</code> / <code>s.lower()</code></td>
+        <td>Maiúsculas / minúsculas</td>
+      </tr>
+      <tr>
+        <td><code>s.strip()</code></td>
+        <td>Remove espaços das pontas</td>
+      </tr>
+      <tr>
+        <td><code>s.split(",")</code></td>
+        <td>Divide em lista</td>
+      </tr>
+      <tr>
+        <td><code>",".join(lista)</code></td>
+        <td>Junta em string</td>
+      </tr>
+      <tr>
+        <td><code>s.replace("a", "b")</code></td>
+        <td>Substitui</td>
+      </tr>
+      <tr>
+        <td><code>s.startswith("x")</code></td>
+        <td>Começa com</td>
+      </tr>
+      <tr>
+        <td><code>s.find("x")</code></td>
+        <td>Índice da substring (-1 se não achar)</td>
+      </tr>
+      <tr>
+        <td><code>s[1:4]</code></td>
+        <td>Fatiamento</td>
+      </tr>
+      <tr>
+        <td><code>s[::-1]</code></td>
+        <td>Inverte</td>
+      </tr>
+    </table>
+
+    <h3>f-strings (formatação moderna)</h3>
+    <pre><code>nome, idade = "Ana", 30
+print(f"{nome} tem {idade} anos")
+print(f"{3.14159:.2f}")        # 3.14
+print(f"{1000000:,}")          # 1,000,000
+print(f"{idade=}")             # idade=30</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🏗️ Programação Orientada a Objetos</h2>
+    <pre><code>class Pessoa:
+    # Atributo de classe
+    especie = "humano"
+
+    def __init__(self, nome, idade):
+        self.nome = nome      # atributo de instância
+        self.idade = idade
+
+    def saudacao(self):
+        return f"Olá, {self.nome}"
+
+    def __str__(self):
+        return f"Pessoa({self.nome}, {self.idade})"
+
+
+# Herança
+class Aluno(Pessoa):
+    def __init__(self, nome, idade, matricula):
+        super().__init__(nome, idade)
+        self.matricula = matricula
+
+    def saudacao(self):
+        return f"Aluno {self.nome}"</code></pre>
+
+    <h3>Métodos especiais (dunder)</h3>
+    <table>
+      <tr>
+        <th width="45%">Método</th>
+        <th>Uso</th>
+      </tr>
+      <tr>
+        <td><code>__init__</code></td>
+        <td>Construtor</td>
+      </tr>
+      <tr>
+        <td><code>__str__</code></td>
+        <td>Representação legível (print)</td>
+      </tr>
+      <tr>
+        <td><code>__repr__</code></td>
+        <td>Representação técnica (debug)</td>
+      </tr>
+      <tr>
+        <td><code>__len__</code></td>
+        <td>Suporta <code>len(obj)</code></td>
+      </tr>
+      <tr>
+        <td><code>__eq__</code></td>
+        <td>Comparação com <code>==</code></td>
+      </tr>
+      <tr>
+        <td><code>__enter__ / __exit__</code></td>
+        <td>Context manager (<code>with</code>)</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>⚠️ Tratamento de Exceções</h2>
+    <pre><code>try:
+    x = int(input("Número: "))
+    y = 10 / x
+except ValueError:
+    print("Não é número")
+except ZeroDivisionError as e:
+    print("Divisão por zero:", e)
+except Exception as e:
+    print("Erro:", e)
+else:
+    print("Tudo ok:", y)
+finally:
+    print("Sempre executa")
+
+# Levantar exceção
+raise ValueError("Valor inválido")
+
+# Exceção customizada
+class MinhaExcecao(Exception):
+    pass</code></pre>
+
+    <div class="warn">
+      ⚠️ Evite <code>except:</code> sozinho (captura tudo, inclusive Ctrl+C). Prefira capturar exceções específicas.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>📂 Arquivos</h2>
+    <pre><code># Ler
+with open("file.txt", "r", encoding="utf-8") as f:
+    conteudo = f.read()
+    # ou: for linha in f: ...
+
+# Escrever
+with open("out.txt", "w", encoding="utf-8") as f:
+    f.write("texto\n")
+
+# Anexar
+with open("log.txt", "a") as f:
+    f.write("nova linha\n")
+
+# JSON
+import json
+with open("d.json") as f:
+    dados = json.load(f)
+with open("out.json", "w") as f:
+    json.dump(dados, f, indent=2)</code></pre>
+
+    <div class="tip">
+      💡 <strong>Sempre use <code>with</code></strong> — ele fecha o arquivo automaticamente mesmo com erro.
+    </div>
+
+    <!-- ============================================================ -->
+    <h2>🧰 Bibliotecas Padrão Úteis</h2>
+    <table>
+      <tr>
+        <th width="30%">Módulo</th>
+        <th>Uso</th>
+      </tr>
+      <tr>
+        <td><code>os</code></td>
+        <td>Sistema operacional (paths, env, dirs)</td>
+      </tr>
+      <tr>
+        <td><code>pathlib</code></td>
+        <td>Manipulação de caminhos (moderno)</td>
+      </tr>
+      <tr>
+        <td><code>sys</code></td>
+        <td>Argumentos, saída do programa</td>
+      </tr>
+      <tr>
+        <td><code>json</code></td>
+        <td>Ler/escrever JSON</td>
+      </tr>
+      <tr>
+        <td><code>re</code></td>
+        <td>Expressões regulares</td>
+      </tr>
+      <tr>
+        <td><code>datetime</code></td>
+        <td>Datas e horas</td>
+      </tr>
+      <tr>
+        <td><code>math</code> / <code>random</code></td>
+        <td>Matemática / aleatoriedade</td>
+      </tr>
+      <tr>
+        <td><code>collections</code></td>
+        <td><code>Counter</code>, <code>defaultdict</code>, <code>deque</code></td>
+      </tr>
+      <tr>
+        <td><code>itertools</code></td>
+        <td>Iteradores eficientes</td>
+      </tr>
+      <tr>
+        <td><code>functools</code></td>
+        <td><code>lru_cache</code>, <code>reduce</code>, <code>partial</code></td>
+      </tr>
+      <tr>
+        <td><code>typing</code></td>
+        <td>Type hints (<code>List</code>, <code>Dict</code>, <code>Optional</code>)</td>
+      </tr>
+      <tr>
+        <td><code>logging</code></td>
+        <td>Logs estruturados</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🎯 Recursos Avançados</h2>
+
+    <h3>Decoradores</h3>
+    <pre><code>def meu_decorador(func):
+    def wrapper(*args, **kwargs):
+        print("antes")
+        resultado = func(*args, **kwargs)
+        print("depois")
+        return resultado
+    return wrapper
+
+@meu_decorador
+def saudacao():
+    print("Olá")</code></pre>
+
+    <h3>Geradores</h3>
+    <pre><code>def contador(n):
+    for i in range(n):
+        yield i
+
+for x in contador(5):
+    print(x)
+
+# Generator expression (economiza memória)
+quadrados = (x*x for x in range(1000000))</code></pre>
+
+    <h3>Context managers customizados</h3>
+    <pre><code>from contextlib import contextmanager
+
+@contextmanager
+def meu_contexto():
+    print("entrando")
+    yield
+    print("saindo")
+
+with meu_contexto():
+    print("dentro")</code></pre>
+
+    <h3>Dataclasses (Python 3.7+)</h3>
+    <pre><code>from dataclasses import dataclass
+
+@dataclass
+class Pessoa:
+    nome: str
+    idade: int = 0
+
+p = Pessoa("Ana", 30)
+print(p)  # Pessoa(nome='Ana', idade=30)</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🧪 Testes com pytest</h2>
+    <pre><code># arquivo: test_soma.py
+from minha_lib import soma
+
+def test_soma_positivos():
+    assert soma(2, 3) == 5
+
+def test_soma_negativos():
+    assert soma(-1, -1) == -2
+
+# Rodar:
+# pytest                    → todos os testes
+# pytest -v                 → verboso
+# pytest test_soma.py       → arquivo específico
+# pytest -k "positivos"     → testes que casam com nome
+# pytest --cov=minha_lib    → cobertura</code></pre>
+
+    <table>
+      <tr>
+        <th width="45%">Comando</th>
+        <th>O que faz</th>
+      </tr>
+      <tr>
+        <td><code>pytest</code></td>
+        <td>Roda todos os testes</td>
+      </tr>
+      <tr>
+        <td><code>pytest -v</code></td>
+        <td>Modo verboso</td>
+      </tr>
+      <tr>
+        <td><code>pytest -x</code></td>
+        <td>Para no primeiro erro</td>
+      </tr>
+      <tr>
+        <td><code>pytest -s</code></td>
+        <td>Mostra prints</td>
+      </tr>
+      <tr>
+        <td><code>pytest --lf</code></td>
+        <td>Roda só os que falharam antes</td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🎯 Boas Práticas (PEP 8)</h2>
+    <table>
+      <tr>
+        <th width="45%">Prática</th>
+        <th>Exemplo</th>
+      </tr>
+      <tr>
+        <td>Variáveis/funções: <code>snake_case</code></td>
+        <td><code>minha_funcao</code></td>
+      </tr>
+      <tr>
+        <td>Classes: <code>PascalCase</code></td>
+        <td><code>MinhaClasse</code></td>
+      </tr>
+      <tr>
+        <td>Constantes: <code>UPPER_CASE</code></td>
+        <td><code>PI = 3.14</code></td>
+      </tr>
+      <tr>
+        <td>4 espaços por indentação</td>
+        <td>Nunca tabs misturadas</td>
+      </tr>
+      <tr>
+        <td>Linhas até 79-99 caracteres</td>
+        <td>Use <code>black</code> para formatar</td>
+      </tr>
+      <tr>
+        <td>Docstrings em funções públicas</td>
+        <td><code>"""Descrição."""</code></td>
+      </tr>
+      <tr>
+        <td>Imports no topo, agrupados</td>
+        <td>stdlib → terceiros → locais</td>
+      </tr>
+      <tr>
+        <td>Use <code>is</code> para <code>None</code></td>
+        <td><code>if x is None:</code></td>
+      </tr>
+      <tr>
+        <td>Prefira f-strings</td>
+        <td><code>f"{x}"</code> em vez de <code>"%s" % x</code></td>
+      </tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <h2>🚑 Situações Comuns</h2>
+
+    <h3>Ler argumentos da linha de comando</h3>
+    <pre><code>import sys
+print(sys.argv)  # ['script.py', 'arg1', 'arg2']
+
+# Ou com argparse (recomendado)
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--nome", required=True)
+args = parser.parse_args()
+print(args.nome)</code></pre>
+
+    <h3>Requisição HTTP</h3>
+    <pre><code>import requests
+
+r = requests.get("https://api.com/dados")
+r.raise_for_status()
+dados = r.json()</code></pre>
+
+    <h3>Expressões regulares</h3>
+    <pre><code>import re
+
+m = re.match(r"(\d+)-(\d+)", "10-20")
+if m:
+    print(m.group(1), m.group(2))
+
+# Substituir
+novo = re.sub(r"\d+", "X", "abc123def")
+# Encontrar todos
+emails = re.findall(r"\S+@\S+", texto)</code></pre>
+
+    <h3>Ordenar com critério</h3>
+    <pre><code>pessoas = [{"nome": "Ana", "idade": 30},
+           {"nome": "Bia", "idade": 25}]
+
+ordenado = sorted(pessoas, key=lambda p: p["idade"])
+ordenado_desc = sorted(pessoas, key=lambda p: -p["idade"])</code></pre>
+
+    <!-- ============================================================ -->
+    <h2>🧭 Fluxo de Trabalho Típico</h2>
+    <pre><code># 1. Criar projeto
+mkdir meu_projeto &amp;&amp; cd meu_projeto
+python -m venv .venv
+source .venv/bin/activate      # Linux/Mac
+# .venv\Scripts\activate       # Windows
+
+# 2. Instalar dependências
+pip install requests pandas
+
+# 3. Salvar dependências
+pip freeze &gt; requirements.txt
+
+# 4. Estrutura recomendada
+# meu_projeto/
+# ├── src/
+# │   └── meu_pacote/
+# │       ├── __init__.py
+# │       └── core.py
+# ├── tests/
+# ├── requirements.txt
+# └── README.md
+
+# 5. Rodar
+python -m meu_pacote.core</code></pre>
+
+    <div class="footer">
+      Referência Completa de Python • Página para impressão
+    </div>
+
+    <script>
+      (function () {
+        const btn = document.getElementById("themeToggle");
+        const html = document.documentElement;
+        function applyTheme(theme) {
+          if (theme === "dark") {
+            html.classList.add("dark");
+            btn.textContent = "☀️";
+            btn.title = "Mudar para modo claro";
+          } else {
+            html.classList.remove("dark");
+            btn.textContent = "🌙";
+            btn.title = "Mudar para modo escuro";
+          }
+        }
+        const saved = localStorage.getItem("theme") || "light";
+        applyTheme(saved);
+        btn.addEventListener("click", function () {
+          const current = html.classList.contains("dark") ? "dark" : "light";
+          const next = current === "dark" ? "light" : "dark";
+          localStorage.setItem("theme", next);
+          applyTheme(next);
+        });
+      })();
+    </script>
+  </body>
+</html>
